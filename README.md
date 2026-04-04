@@ -45,7 +45,25 @@ The **About** page uses a split panel (beige + white) on medium+ screens and sta
 
 `dist/` is static files only. It works with **GitHub Pages**, **Vercel**, **Netlify**, or any static host.
 
-If the site is served from a **subpath** (e.g. `https://username.github.io/resume/`), set the Vite [`base`](https://vite.dev/config/shared-options.html#base) option in `vite.config.ts` to that path (e.g. `base: '/resume/'`).
+### GitHub Pages at `https://<user>.github.io/resume/`
+
+This repo is configured for a **project site** (repo name `resume`):
+
+- **[`vite.config.ts`](vite.config.ts)** sets `base: '/resume/'` in **production** builds so scripts and styles load from `/resume/assets/...`.
+- **[`src/App.tsx`](src/App.tsx)** sets `BrowserRouter` `basename` from `import.meta.env.BASE_URL` so in-app links match that path.
+- **`npm run build`** copies `dist/index.html` → `dist/404.html` so [GitHub Pages can serve your SPA](https://github.com/orgs/community/discussions/36999) when users open or refresh a deep link (e.g. `/resume/projects`).
+
+`npm run dev` still uses `base: '/'` (root), so local URLs stay `http://localhost:5173/...`.
+
+**Preview a production build locally** (with `/resume/` base):
+
+```bash
+npm run build && npm run preview
+```
+
+Open **http://localhost:4173/resume/** (note the `/resume/` prefix).
+
+If you rename the GitHub repo, change **`/resume/`** in `vite.config.ts` to `/<new-repo-name>/`.
 
 ## Scripts
 

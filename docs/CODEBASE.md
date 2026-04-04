@@ -105,6 +105,7 @@ This document summarizes **what each source file does** and **what each named fu
 | [src/utils/initials.ts](../src/utils/initials.ts) | Avatar fallback letters from a full name. |
 | [src/utils/siteDates.ts](../src/utils/siteDates.ts) | Footer copyright year and “month year” stamp. |
 | [src/utils/externalLinks.ts](../src/utils/externalLinks.ts) | Detect GitHub URLs for project link labels. |
+| [src/utils/publicUrl.ts](../src/utils/publicUrl.ts) | Prefix `public/` paths with Vite `BASE_URL` (headshot on GitHub Pages). |
 
 **Functions**
 
@@ -112,6 +113,7 @@ This document summarizes **what each source file does** and **what each named fu
 - `currentYear()` — `new Date().getFullYear()`.
 - `formatFooterMonthYear()` — e.g. `"April 2026"` in `en-US`.
 - `isGithubUrl(url)` — True if hostname contains `github.com`.
+- `publicAssetPath(path)` — Joins JSON paths like `/images/photo.png` with `import.meta.env.BASE_URL`.
 
 ---
 

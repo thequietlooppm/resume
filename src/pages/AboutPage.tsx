@@ -16,12 +16,14 @@ import { Link as RouterLink } from 'react-router-dom'
 import { SocialIconRow } from '../components/SocialIconRow'
 import { resume } from '../content'
 import { initialsFromName } from '../utils/initials'
+import { publicAssetPath } from '../utils/publicUrl'
 
 export function AboutPage() {
   const data = resume
   const { basics, contact, summary } = data
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = basics.photoSrc && !photoFailed
+  const photoUrl = basics.photoSrc ? publicAssetPath(basics.photoSrc) : undefined
 
   return (
     <Box
@@ -68,7 +70,7 @@ export function AboutPage() {
             >
               <Avatar
                 alt=""
-                src={showPhoto ? basics.photoSrc : undefined}
+                src={showPhoto ? photoUrl : undefined}
                 imgProps={{
                   onError: () => {
                     setPhotoFailed(true)

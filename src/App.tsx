@@ -8,9 +8,13 @@ import { ContactPage } from './pages/ContactPage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { ResumePage } from './pages/ResumePage'
 
+/** Matches Vite `base` in production (`/resume/` on GitHub Pages project sites). */
+const routerBasename =
+  import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '')
+
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <Routes>
         <Route element={<SiteLayout />}>
           <Route index element={<AboutPage />} />
