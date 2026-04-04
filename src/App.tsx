@@ -1,3 +1,6 @@
+/**
+ * Root React tree: `BrowserRouter` and route table. Nested routes render inside `SiteLayout`.
+ */
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { SiteLayout } from './layout/SiteLayout'
 import { AboutPage } from './pages/AboutPage'

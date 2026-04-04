@@ -14,6 +14,10 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 - **Production build:** `npm run build` — output in `dist/`.
 - **Preview build:** `npm run preview`.
 
+## Code structure
+
+See **[`docs/CODEBASE.md`](docs/CODEBASE.md)** for a per-file and per-function overview of the React app.
+
 ## Editing content
 
 See **[`docs/CONTENT.md`](docs/CONTENT.md)** for field-by-field documentation of `resume.json`.

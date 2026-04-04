@@ -1,3 +1,6 @@
+/**
+ * Site footer: copyright + build stamp (left); Email and Follow columns (right, Follow furthest right).
+ */
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import Box from '@mui/material/Box'
@@ -7,17 +10,24 @@ import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
+import { currentYear, formatFooterMonthYear } from '../utils/siteDates'
 
 type Props = { data: Resume }
 
-function buildStamp() {
-  return new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' })
+const centeredColumnTitleSx = {
+  fontWeight: 700,
+  letterSpacing: '0.06em',
+  textTransform: 'uppercase' as const,
+  display: 'block',
+  width: '100%',
+  textAlign: 'center' as const,
 }
 
+/** Renders the global footer with resume-driven contact and social links. */
 export function SiteFooter({ data }: Props) {
   const { basics, contact } = data
-  const year = new Date().getFullYear()
-  const updated = buildStamp()
+  const year = currentYear()
+  const updated = formatFooterMonthYear()
   const emailLower = contact.email ? contact.email.toLowerCase() : ''
 
   return (
@@ -42,7 +52,6 @@ export function SiteFooter({ data }: Props) {
             gap: { xs: 3, md: 2 },
           }}
         >
-          {/* Left: copyright + build (left-aligned) */}
           <Stack
             spacing={1}
             sx={{
@@ -60,7 +69,6 @@ export function SiteFooter({ data }: Props) {
             </Typography>
           </Stack>
 
-          {/* Flexible gap between left and right groups on desktop */}
           <Box
             sx={{
               flex: { md: '1 1 auto' },
@@ -70,7 +78,6 @@ export function SiteFooter({ data }: Props) {
             aria-hidden
           />
 
-          {/* Right cluster: Email (inner) then Follow (further right); each column centers label + content */}
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 3, sm: 4, md: 5 }}
@@ -81,7 +88,6 @@ export function SiteFooter({ data }: Props) {
               width: { xs: '100%', md: 'auto' },
             }}
           >
-            {/* Email: left of Follow on desktop; label + address centered in column */}
             <Stack
               spacing={1}
               sx={{
@@ -92,18 +98,7 @@ export function SiteFooter({ data }: Props) {
                 mx: { xs: 'auto', sm: 0 },
               }}
             >
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'center',
-                }}
-              >
+              <Typography variant="caption" color="text.secondary" sx={centeredColumnTitleSx}>
                 Email
               </Typography>
               {contact.email ? (
@@ -128,7 +123,6 @@ export function SiteFooter({ data }: Props) {
               )}
             </Stack>
 
-            {/* Follow: furthest right; icons centered under label */}
             <Stack
               spacing={1}
               sx={{
@@ -138,18 +132,7 @@ export function SiteFooter({ data }: Props) {
                 mx: { xs: 'auto', sm: 0 },
               }}
             >
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'center',
-                }}
-              >
+              <Typography variant="caption" color="text.secondary" sx={centeredColumnTitleSx}>
                 Follow
               </Typography>
               <Stack direction="row" spacing={0.5} justifyContent="center" useFlexGap sx={{ width: '100%' }}>

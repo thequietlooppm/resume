@@ -1,3 +1,7 @@
+/**
+ * `/` — portfolio-style landing: profile card, intro copy, and CTAs to Resume/Projects.
+ * Vertically centered in the main column between header and footer.
+ */
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -7,19 +11,11 @@ import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
-import { resume } from '../content'
+import { Link as RouterLink } from 'react-router-dom'
 import { SocialIconRow } from '../components/SocialIconRow'
-
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((p) => p[0])
-    .join('')
-    .toUpperCase()
-}
+import { resume } from '../content'
+import { initialsFromName } from '../utils/initials'
 
 export function AboutPage() {
   const data = resume
@@ -48,7 +44,6 @@ export function AboutPage() {
             justifyContent: 'center',
           }}
         >
-          {/* Left: beige panel + profile card */}
           <Grid
             size={{ xs: 12, md: 5 }}
             sx={{
@@ -93,7 +88,7 @@ export function AboutPage() {
                   boxShadow: '0 4px 20px rgba(15,23,42,0.08)',
                 }}
               >
-                {!showPhoto ? initials(basics.name) : null}
+                {!showPhoto ? initialsFromName(basics.name) : null}
               </Avatar>
               <Typography
                 component="p"
@@ -134,7 +129,6 @@ export function AboutPage() {
             </Paper>
           </Grid>
 
-          {/* Right: intro + CTAs */}
           <Grid
             size={{ xs: 12, md: 7 }}
             sx={{

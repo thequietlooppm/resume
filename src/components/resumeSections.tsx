@@ -1,3 +1,7 @@
+/**
+ * Resume content blocks used on `/resume` and `/projects`. Each wraps `CvSection`
+ * and maps arrays from the typed `Resume` model into MUI layout.
+ */
 import LaunchIcon from '@mui/icons-material/Launch'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
@@ -5,22 +9,27 @@ import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
+import { isGithubUrl } from '../utils/externalLinks'
 import { CvSection } from './CvSection'
 
 type Props = { data: Resume }
 
-function isGithub(url: string) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '').includes('github.com')
-  } catch {
-    return false
-  }
+const sectionDivider = <Divider flexItem sx={{ opacity: 0.7 }} />
+
+const projectLinkSx = {
+  display: 'inline-flex' as const,
+  alignItems: 'center' as const,
+  gap: 0.5,
+  fontWeight: 600,
+  color: 'primary.dark',
+  py: 0.5,
 }
 
+/** Work history with optional company links and bullet highlights. */
 export function ExperienceSection({ data }: Props) {
   return (
     <CvSection title="Experience" id="experience">
-      <Stack spacing={2.75} divider={<Divider flexItem sx={{ opacity: 0.7 }} />}>
+      <Stack spacing={2.75} divider={sectionDivider}>
         {data.experience.map((job) => (
           <Box key={`${job.company}-${job.role}-${job.start}`}>
             <Typography variant="h3" component="h3" sx={{ color: 'text.primary' }}>
@@ -79,10 +88,11 @@ export function ExperienceSection({ data }: Props) {
   )
 }
 
+/** Degrees and schools with optional school links. */
 export function EducationSection({ data }: Props) {
   return (
     <CvSection title="Education" id="education">
-      <Stack spacing={2.5} divider={<Divider flexItem sx={{ opacity: 0.7 }} />}>
+      <Stack spacing={2.5} divider={sectionDivider}>
         {data.education.map((edu) => (
           <Box key={`${edu.school}-${edu.degree}`}>
             <Typography variant="h3" component="h3">
@@ -117,6 +127,7 @@ export function EducationSection({ data }: Props) {
   )
 }
 
+/** Skill tags from `resume.skills`. */
 export function SkillsSection({ data }: Props) {
   return (
     <CvSection title="Skills" id="skills">
@@ -152,10 +163,11 @@ export function SkillsSection({ data }: Props) {
   )
 }
 
+/** Project blurbs with primary and optional demo links. */
 export function ProjectsSection({ data }: Props) {
   return (
     <CvSection title="Projects" id="projects">
-      <Stack spacing={2.75} divider={<Divider flexItem sx={{ opacity: 0.7 }} />}>
+      <Stack spacing={2.75} divider={sectionDivider}>
         {data.projects.map((project) => (
           <Box key={project.name}>
             <Typography variant="h3" component="h3">
@@ -170,16 +182,9 @@ export function ProjectsSection({ data }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="body2"
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                  fontWeight: 600,
-                  color: 'primary.dark',
-                  py: 0.5,
-                }}
+                sx={projectLinkSx}
               >
-                {isGithub(project.githubUrl) ? 'Repository' : 'Link'}
+                {isGithubUrl(project.githubUrl) ? 'Repository' : 'Link'}
                 <LaunchIcon sx={{ fontSize: 18 }} aria-hidden />
               </Link>
               {project.demoUrl ? (
@@ -188,14 +193,7 @@ export function ProjectsSection({ data }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="body2"
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 0.5,
-                    fontWeight: 600,
-                    color: 'primary.dark',
-                    py: 0.5,
-                  }}
+                  sx={projectLinkSx}
                 >
                   Demo / article
                   <LaunchIcon sx={{ fontSize: 18 }} aria-hidden />

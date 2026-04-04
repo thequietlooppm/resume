@@ -2,7 +2,8 @@
   "basics": {
     "name": "Patrick Hagen",
     "title": "Technical Program Manager",
-    "location": "Minneapolis, Minnesota, United States"
+    "location": "Minneapolis, Minnesota, United States",
+    "photoSrc": "/images/headshot.png"
   },
   "contact": {
     "email": "PatrickWHagen@gmail.com",

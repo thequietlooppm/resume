@@ -1,6 +1,9 @@
+/**
+ * Global MUI theme: blue primary, slate text, Playfair for display headings in typography.h1,
+ * Source Sans 3 for UI/body. Linked from `index.html` Google Fonts.
+ */
 import { createTheme } from '@mui/material/styles'
 
-/** Wix-style portfolio: blue accent, warm neutrals, serif display for names */
 export const theme = createTheme({
   palette: {
     mode: 'light',

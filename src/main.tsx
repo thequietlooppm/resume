@@ -1,3 +1,6 @@
+/**
+ * Browser entry: mounts React under `#root`, wraps the app in MUI `ThemeProvider` and `CssBaseline`.
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider } from '@mui/material/styles'

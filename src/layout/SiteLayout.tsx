@@ -1,3 +1,6 @@
+/**
+ * Shell for all routes: header, scrollable main (`Outlet`), footer. Imports global `resume` once.
+ */
 import Box from '@mui/material/Box'
 import { Outlet } from 'react-router-dom'
 import { resume } from '../content'

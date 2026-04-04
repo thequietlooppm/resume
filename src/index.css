@@ -1,4 +1,6 @@
-/* Minimal global styles; MUI CssBaseline + theme handle most layout/typography. */
+/**
+ * Minimal global styles. MUI `CssBaseline` and `theme` own typography and most layout.
+ */
 html {
   -webkit-text-size-adjust: 100%;
 }

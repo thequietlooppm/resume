@@ -1,3 +1,7 @@
+/**
+ * TypeScript shape for `src/content/resume.json`. Edit the JSON for all site text/links;
+ * keep fields aligned with these interfaces so `tsc` catches mistakes.
+ */
 export interface Basics {
   name: string
   title: string

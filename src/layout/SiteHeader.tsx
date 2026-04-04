@@ -1,3 +1,6 @@
+/**
+ * Sticky top bar: brand (home link), desktop nav, and mobile drawer menu.
+ */
 import MenuIcon from '@mui/icons-material/Menu'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -8,9 +11,9 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles'
 import type { Resume } from '../content/types'
 
 const navItems: { label: string; to: string; end?: boolean }[] = [
@@ -22,6 +25,7 @@ const navItems: { label: string; to: string; end?: boolean }[] = [
 
 type Props = { data: Resume }
 
+/** Uppercase nav link for md+ screens; highlights when route matches. */
 function NavTextLink({ to, end, children }: { to: string; end?: boolean; children: string }) {
   const theme = useTheme()
   return (
@@ -42,6 +46,7 @@ function NavTextLink({ to, end, children }: { to: string; end?: boolean; childre
   )
 }
 
+/** Application header wired to `resume.basics` for the brand line. */
 export function SiteHeader({ data }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { basics } = data
@@ -50,12 +55,7 @@ export function SiteHeader({ data }: Props) {
     <Box sx={{ width: 260, pt: 2 }} onClick={() => setMobileOpen(false)}>
       <List>
         {navItems.map((item) => (
-          <ListItemButton
-            key={item.to}
-            component={NavLink}
-            to={item.to}
-            end={Boolean(item.end)}
-          >
+          <ListItemButton key={item.to} component={NavLink} to={item.to} end={Boolean(item.end)}>
             <ListItemText primary={item.label} primaryTypographyProps={{ sx: { textTransform: 'uppercase', fontSize: '0.875rem' } }} />
           </ListItemButton>
         ))}
@@ -96,12 +96,7 @@ export function SiteHeader({ data }: Props) {
                   flexShrink: 0,
                 }}
               />
-              <Stack
-                direction="row"
-                alignItems="center"
-                flexWrap="wrap"
-                sx={{ columnGap: 0.5, rowGap: 0.5, minWidth: 0 }}
-              >
+              <Stack direction="row" alignItems="center" flexWrap="wrap" sx={{ columnGap: 0.5, rowGap: 0.5, minWidth: 0 }}>
                 <Typography
                   component="span"
                   sx={{

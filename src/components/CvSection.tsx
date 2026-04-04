@@ -1,3 +1,6 @@
+/**
+ * Reusable resume section: accent bar + uppercase title, optional `id` for anchors.
+ */
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
