@@ -1,0 +1,106 @@
+{
+  "basics": {
+    "name": "Patrick Hagen",
+    "title": "Technical Program Manager",
+    "location": "Minneapolis, Minnesota, United States"
+  },
+  "contact": {
+    "email": "PatrickWHagen@gmail.com",
+    "phone": "",
+    "linkedin": "https://www.linkedin.com/in/patrickwhagen/",
+    "github": ""
+  },
+  "summary": "Technical program manager with experience driving cross-functional programs in ads integrity and software engineering. Background in LabVIEW and applications engineering at National Instruments, plus an MBA from UT Austin and a computer engineering degree from UW–Madison.",
+  "experience": [
+    {
+      "role": "Technical Program Manager",
+      "company": "Meta (Facebook)",
+      "companyUrl": "https://www.meta.com/",
+      "location": "Austin, Texas",
+      "start": "Dec 2017",
+      "end": "Present",
+      "highlights": [
+        "Lead technical programs across engineering and product stakeholders."
+      ]
+    },
+    {
+      "role": "Ads Integrity Associate",
+      "company": "Facebook",
+      "companyUrl": "https://www.meta.com/",
+      "location": "Austin, Texas Area",
+      "start": "Oct 2015",
+      "end": "Dec 2017",
+      "highlights": []
+    },
+    {
+      "role": "Software Engineer",
+      "company": "National Instruments",
+      "companyUrl": "https://www.ni.com/",
+      "location": "Austin, Texas Area",
+      "start": "Jul 2014",
+      "end": "Sep 2015",
+      "highlights": []
+    },
+    {
+      "role": "Applications Engineer",
+      "company": "National Instruments",
+      "companyUrl": "https://www.ni.com/",
+      "location": "Austin, Texas",
+      "start": "Jul 2012",
+      "end": "Jul 2014",
+      "highlights": []
+    },
+    {
+      "role": "Student Repair Technician",
+      "company": "Division of Information Technology",
+      "location": "Madison, Wisconsin",
+      "start": "Jan 2010",
+      "end": "Jul 2012",
+      "highlights": []
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Business Administration (M.B.A.)",
+      "school": "The University of Texas at Austin",
+      "schoolUrl": "https://www.utexas.edu/",
+      "location": "Austin, Texas",
+      "start": "2014",
+      "end": "2017"
+    },
+    {
+      "degree": "B.S., Computer Engineering & Computer Science (GPA 3.7)",
+      "school": "University of Wisconsin–Madison",
+      "schoolUrl": "https://www.wisc.edu/",
+      "location": "Madison, Wisconsin",
+      "start": "2008",
+      "end": "2012",
+      "details": "Tau Beta Pi, Eta Kappa Nu"
+    }
+  ],
+  "skills": [
+    "Program management",
+    "Cross-functional leadership",
+    "Software development",
+    "LabVIEW",
+    "Integrity & safety"
+  ],
+  "projects": [
+    {
+      "name": "LabVIEW Log Parsing",
+      "description": "Parse many log files and produce formatted CSV outputs with scalability and reliability.",
+      "githubUrl": "https://github.com/patrickwhagen"
+    },
+    {
+      "name": "sbRIO Data Logging",
+      "description": "LabVIEW Real-Time and FPGA application logging multiple analog channels at high daily volume.",
+      "githubUrl": "https://github.com/patrickwhagen"
+    },
+    {
+      "name": "LabVIEW FPGA RISC Processor",
+      "description": "Academic RISC processor on NI myRIO with pipeline stages, forwarding, and branch prediction; UI for assembly-style programs.",
+      "githubUrl": "https://github.com/patrickwhagen",
+      "demoUrl": "https://decibel.ni.com/content/docs/DOC-30450"
+    }
+  ]
+}
