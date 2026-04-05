@@ -1,55 +1,61 @@
 /**
- * Global MUI theme: blue primary, slate text, Playfair for display headings in typography.h1,
- * Source Sans 3 for UI/body. Linked from `index.html` Google Fonts.
+ * Dark “Architectural Architect” theme aligned with DESIGN.md:
+ * midnight surfaces, primary as light source, Space Grotesk + Inter.
  */
 import { createTheme } from '@mui/material/styles'
 
+const surface = '#0b1326'
+const surfaceLow = '#131b2e'
+const surfaceHigh = '#222a3d'
+const primary = '#adc6ff'
+const primaryContainer = '#4d8eff'
+const onPrimary = '#002e6a'
+
 export const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: '#2563eb',
-      light: '#3b82f6',
-      dark: '#1d4ed8',
+      main: primary,
+      dark: primaryContainer,
+      contrastText: onPrimary,
     },
     secondary: {
-      main: '#64748b',
-    },
-    text: {
-      primary: '#1e293b',
-      secondary: '#475569',
+      main: '#8ab4ff',
     },
     background: {
-      default: '#f8fafc',
-      paper: '#ffffff',
+      default: surface,
+      paper: surfaceHigh,
     },
-    divider: 'rgba(37, 99, 235, 0.12)',
+    text: {
+      primary: '#e8eaed',
+      secondary: '#9aa3b2',
+    },
+    divider: 'rgba(66, 71, 84, 0.15)',
   },
   typography: {
-    fontFamily: '"Source Sans 3", "Source Sans Pro", system-ui, sans-serif',
+    fontFamily: '"Inter", system-ui, sans-serif',
     h1: {
-      fontFamily: '"Playfair Display", Georgia, "Times New Roman", serif',
+      fontFamily: '"Space Grotesk", system-ui, sans-serif',
       fontWeight: 700,
-      fontSize: '2.125rem',
-      lineHeight: 1.15,
       letterSpacing: '-0.02em',
-      color: '#0f172a',
-      '@media (min-width:600px)': {
-        fontSize: '2.75rem',
-      },
+      fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+      lineHeight: 1.1,
     },
     h2: {
-      fontFamily: '"Source Sans 3", system-ui, sans-serif',
+      fontFamily: '"Space Grotesk", system-ui, sans-serif',
       fontWeight: 700,
-      fontSize: '1.0625rem',
-      letterSpacing: '0.12em',
-      textTransform: 'uppercase',
-      color: '#2563eb',
+      letterSpacing: '-0.02em',
+      fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
     },
     h3: {
-      fontWeight: 700,
-      fontSize: '1.0625rem',
-      lineHeight: 1.35,
+      fontFamily: '"Space Grotesk", system-ui, sans-serif',
+      fontWeight: 600,
+      fontSize: '1.25rem',
+    },
+    h4: {
+      fontFamily: '"Space Grotesk", system-ui, sans-serif',
+      fontWeight: 600,
+      fontSize: '1.05rem',
     },
     body1: {
       fontSize: '1.0625rem',
@@ -59,17 +65,25 @@ export const theme = createTheme({
       fontSize: '0.9375rem',
       lineHeight: 1.65,
     },
-    subtitle1: {
-      fontSize: '1.125rem',
+    button: {
+      textTransform: 'none',
       fontWeight: 600,
-      letterSpacing: '0.04em',
-      color: '#334155',
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          scrollBehavior: 'smooth',
+        },
+        body: {
+          backgroundColor: surface,
+        },
+      },
+    },
     MuiLink: {
       defaultProps: {
         underline: 'hover',
@@ -77,3 +91,16 @@ export const theme = createTheme({
     },
   },
 })
+
+export const design = {
+  surface,
+  surfaceLow,
+  surfaceHigh,
+  surfaceLowest: '#0a0f1a',
+  primary,
+  primaryContainer,
+  onPrimary,
+  ambientShadow: '0 20px 40px rgba(6, 14, 32, 0.4)',
+  ghostBorder: '1px solid rgba(66, 71, 84, 0.15)',
+  gradientCta: `linear-gradient(135deg, ${primary} 0%, ${primaryContainer} 100%)`,
+} as const

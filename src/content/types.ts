@@ -48,6 +48,7 @@ export interface Resume {
   basics: Basics
   contact: Contact
   summary: string
+  about: string
   experience: ExperienceItem[]
   education: EducationItem[]
   skills: string[]

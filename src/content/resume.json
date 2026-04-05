@@ -6,12 +6,13 @@
     "photoSrc": "/images/headshot.png"
   },
   "contact": {
-    "email": "PatrickWHagen@gmail.com",
+    "email": "Patrickwhagen@gmail.com",
     "phone": "",
     "linkedin": "https://www.linkedin.com/in/patrickwhagen/",
-    "github": ""
+    "github": "https://github.com/thequietlooppm"
   },
-  "summary": "Technical program manager with experience driving cross-functional programs in ads integrity and software engineering. Background in LabVIEW and applications engineering at National Instruments, plus an MBA from UT Austin and a computer engineering degree from UW–Madison.",
+  "summary": "Technical Program Manager with over 10 years experience tackling the hardest integrity challenges at Meta.",
+  "about": "Technical Product Leader with a foundation in Computer Engineering and an MBA. Proven track record at Meta (Facebook) of bridging the gap between complex engineering requirements and high-level business strategy. I specialize in leading cross-functional teams of technical and non-technical stakeholders to deliver business-critical objectives, ranging from public-facing products to sophisticated internal infrastructure.",
   "experience": [
     {
       "role": "Technical Program Manager",
@@ -70,13 +71,13 @@
       "end": "2017"
     },
     {
-      "degree": "B.S., Computer Engineering & Computer Science (GPA 3.7)",
+      "degree": "B.S., Computer Engineering & Computer Science",
       "school": "University of Wisconsin–Madison",
       "schoolUrl": "https://www.wisc.edu/",
       "location": "Madison, Wisconsin",
       "start": "2008",
       "end": "2012",
-      "details": "Tau Beta Pi, Eta Kappa Nu"
+      "details": ""
     }
   ],
   "skills": [
