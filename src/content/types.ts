@@ -35,6 +35,8 @@ export interface EducationItem {
   start: string
   end: string
   details?: string
+  /** Optional `public/` path, e.g. `/images/ut-austin-campus.png` (overrides name-based default). */
+  campusPhoto?: string
 }
 
 export interface ProjectItem {

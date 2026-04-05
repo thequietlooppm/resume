@@ -12,13 +12,14 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
 import { design } from '../theme'
-import { currentYear } from '../utils/siteDates'
+import { currentYear, lastCommitMonthYear } from '../utils/siteDates'
 
 type Props = { data: Resume }
 
 export function FooterSection({ data }: Props) {
   const { basics, contact } = data
   const year = currentYear()
+  const updated = lastCommitMonthYear()
   const emailLower = contact.email ? contact.email.toLowerCase() : ''
 
   return (
@@ -120,6 +121,10 @@ export function FooterSection({ data }: Props) {
             )}
           </Stack>
         </Stack>
+
+        <Typography variant="caption" color="text.disabled" sx={{ display: 'block', textAlign: 'center', mt: 2.5 }}>
+          Last updated {updated}
+        </Typography>
       </Container>
     </Box>
   )

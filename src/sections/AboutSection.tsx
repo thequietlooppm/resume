@@ -31,7 +31,7 @@ function splitSummary(text: string): [string, string] {
 }
 
 export function AboutSection({ data }: Props) {
-  const { basics, summary, about } = data
+  const { basics, about } = data
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = basics.photoSrc && !photoFailed
   const photoUrl = basics.photoSrc ? publicAssetPath(basics.photoSrc) : undefined

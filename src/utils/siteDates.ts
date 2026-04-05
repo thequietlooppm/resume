@@ -3,10 +3,7 @@ export function currentYear(): number {
   return new Date().getFullYear()
 }
 
-/**
- * Long month + year for the footer “Built with …” line, e.g. “April 2026”.
- * Reflects the visitor’s current calendar month when the page renders.
- */
-export function formatFooterMonthYear(): string {
-  return new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' })
+/** Month and year of the latest git commit, baked in at build time (see `vite.config.ts`). */
+export function lastCommitMonthYear(): string {
+  return __LAST_COMMIT_MONTH_YEAR__
 }
