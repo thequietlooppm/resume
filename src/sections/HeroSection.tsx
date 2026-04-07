@@ -1,14 +1,14 @@
 /**
- * Hero: display name, gradient title line, summary teaser, CTAs + GitHub affordance.
+ * Hero: display name, gradient title line, summary teaser, CTAs + social icon links.
  */
 import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
-import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
 import { design } from '../theme'
@@ -91,31 +91,29 @@ export function HeroSection({ data }: Props) {
           >
             Contact Me
           </Button>
-          <Link href="#contact" variant="body1" sx={{ fontWeight: 600, color: 'primary.main' }}>
-            Contact section →
+          <Link href="#about" variant="body1" sx={{ fontWeight: 600, color: 'primary.main' }}>
+            Scroll for More ↓
           </Link>
-          {contact.github ? (
-            <Tooltip title="GitHub">
-              <IconButton
-                component="a"
-                href={contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
-              >
-                <GitHubIcon />
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Add GitHub URL in resume.json">
-              <span>
-                <IconButton disabled aria-label="GitHub" sx={{ border: design.ghostBorder, borderRadius: 2 }}>
-                  <GitHubIcon />
-                </IconButton>
-              </span>
-            </Tooltip>
-          )}
+          <IconButton
+            component="a"
+            href={contact.linkedin!}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
+          >
+            <LinkedInIcon />
+          </IconButton>
+          <IconButton
+            component="a"
+            href={contact.github!}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
+          >
+            <GitHubIcon />
+          </IconButton>
         </Stack>
       </Container>
     </Box>

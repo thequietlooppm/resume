@@ -163,7 +163,7 @@ export function AboutSection({ data }: Props) {
                       Business
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Business-minded TPM aligning engineering with executive strategy to deliver high-quality technical solutions that meet critical company objectives.                    
+                      Business-minded TPM bridging the gap between technical and non-technical partners to deliver high-quality technical solutions that meet critical company objectives.                    
                     </Typography>
                   </CardContent>
                 </Card>
