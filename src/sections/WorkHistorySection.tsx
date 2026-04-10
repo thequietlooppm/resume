@@ -11,6 +11,29 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { ExperienceItem } from '../content/types'
 import { design } from '../theme'
+import { publicAssetPath } from '../utils/publicUrl'
+
+/** `public/images/logos/*` — add SVGs for other employers as needed. */
+function employerLogo(label: string): { path: string; imgWidth: number } | null {
+  if (label === 'Meta') return { path: '/images/logos/meta.svg', imgWidth: 24 }
+  if (label === 'National Instruments') return { path: '/images/logos/national-instruments.svg', imgWidth: 30 }
+  if (label === 'Division of Information Technology') return { path: '/images/logos/uw-madison.png', imgWidth: 28 }
+  return null
+}
+
+/**
+ * Join `employerSummary` chunks for display; arrays are for editor-friendly JSON only.
+ * Newlines inside strings are kept; the summary `Typography` uses `pre-line` so `\n` becomes a line break.
+ */
+function formatEmployerSummary(value: string | string[] | undefined): string | undefined {
+  if (value == null) return undefined
+  if (Array.isArray(value)) {
+    const parts = value.map((s) => s.trim()).filter(Boolean)
+    return parts.length ? parts.join(' ') : undefined
+  }
+  const t = value.trim()
+  return t.length ? t : undefined
+}
 
 function companyKey(company: string): string {
   const c = company.toLowerCase()
@@ -19,14 +42,25 @@ function companyKey(company: string): string {
   return company
 }
 
-function groupExperience(jobs: ExperienceItem[]): { label: string; url?: string; items: ExperienceItem[] }[] {
-  const map = new Map<string, { url?: string; items: ExperienceItem[] }>()
+/** Meta spans full row on md+; other employers pair as half-width cards. */
+function workCardGridSize(label: string): { xs: number; md: number } {
+  return label === 'Meta' ? { xs: 12, md: 12 } : { xs: 12, md: 6 }
+}
+
+function groupExperience(jobs: ExperienceItem[]): {
+  label: string
+  url?: string
+  employerSummary?: string | string[]
+  items: ExperienceItem[]
+}[] {
+  const map = new Map<string, { url?: string; employerSummary?: string | string[]; items: ExperienceItem[] }>()
   for (const job of jobs) {
     const label = companyKey(job.company)
     const existing = map.get(label)
     const url = job.companyUrl ?? existing?.url
     const items = existing ? [...existing.items, job] : [job]
-    map.set(label, { url, items })
+    const employerSummary = existing?.employerSummary ?? job.employerSummary
+    map.set(label, { url, items, employerSummary })
   }
   const order = ['Meta', 'National Instruments']
   const rest = [...map.keys()].filter((k) => !order.includes(k))
@@ -34,6 +68,7 @@ function groupExperience(jobs: ExperienceItem[]): { label: string; url?: string;
   return keys.map((label) => ({
     label,
     url: map.get(label)!.url,
+    employerSummary: map.get(label)!.employerSummary,
     items: map.get(label)!.items,
   }))
 }
@@ -65,8 +100,12 @@ export function WorkHistorySection({ experience }: Props) {
         </Box>
 
         <Grid container spacing={3}>
-          {groups.map((g) => (
-            <Grid key={g.label} size={{ xs: 12, md: 6 }}>
+          {groups.map((g) => {
+            const logo = employerLogo(g.label)
+            const logoUrl = logo ? publicAssetPath(logo.path) : null
+            const summaryText = formatEmployerSummary(g.employerSummary)
+            return (
+            <Grid key={g.label} size={workCardGridSize(g.label)}>
               <Card
                 elevation={0}
                 sx={{
@@ -100,9 +139,36 @@ export function WorkHistorySection({ experience }: Props) {
                         bgcolor: design.surfaceLow,
                         border: design.ghostBorder,
                         flexShrink: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
                       }}
-                    />
+                    >
+                      {logoUrl ? (
+                        <Box
+                          component="img"
+                          src={logoUrl}
+                          alt=""
+                          sx={{
+                            width: logo?.imgWidth ?? 24,
+                            height: 24,
+                            objectFit: 'contain',
+                            display: 'block',
+                          }}
+                        />
+                      ) : null}
+                    </Box>
                   </Stack>
+                  {summaryText ? (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mb: 2.5, lineHeight: 1.65, whiteSpace: 'pre-line' }}
+                    >
+                      {summaryText}
+                    </Typography>
+                  ) : null}
                   <Stack spacing={2.5}>
                     {g.items.map((job) => (
                       <Box key={`${job.role}-${job.start}`}>
@@ -127,7 +193,8 @@ export function WorkHistorySection({ experience }: Props) {
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+            )
+          })}
         </Grid>
       </Container>
     </Box>

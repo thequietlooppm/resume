@@ -21,9 +21,13 @@
       "location": "Austin, Texas",
       "start": "Dec 2017",
       "end": "Present",
-      "highlights": [
-        "Lead technical programs across engineering and product stakeholders."
-      ]
+      "employerSummary": [
+        "My career at Meta began with a \"boots on the ground\" approach to operations. As an Analyst in 2015, I acted as a force multiplier for the team, ",
+        "shipping code, managing complex vendor relationships, and translating technical requirements for sales and their customers. This role taught me how ",
+        "to navigate the Meta ecosystem from the inside out. By owning the end-to-end delivery of diverse projects, I transitioned from a generalist ",
+        "contributor to a dedicated TPM, carrying forward a \"whatever it takes\" philosophy to project delivery at scale."
+      ],
+      "highlights": []
     },
     {
       "role": "Ads Integrity Associate",
@@ -41,6 +45,18 @@
       "location": "Austin, Texas Area",
       "start": "Jul 2014",
       "end": "Sep 2015",
+      "employerSummary": [
+        "My tenure at National Instruments was a masterclass in the two pillars of Technical Program Management:",
+        "technical communication and operational scale. Starting as an Applications Engineer, I had to troubleshoot",
+        "complex deployments for world-class scientists—often \"flying blind\" without hardware access. This forced",
+        " me to master the art of technical translation: diagnosing invisible problems and adapting my explanations ",
+        "to match the technical depth of each stakeholder.\n\nLater, as a Software Engineer, I moved from solving individual problems to managing high-volume complexity.",
+        "While most groups focused on a single product pipeline, my team developed the driver installers that supported",
+        " a dozen different hardware teams simultaneously. Navigating those parallel lifecycles and managing competing ",
+        "dependencies across dozens of devices was a turning point for me. I realized that while I respected the craft ",
+        "of coding, my true impact lay in the \"big picture\"—orchestrating complex technical requirements and aligning",
+        " disparate teams to ship at scale."
+      ],
       "highlights": []
     },
     {
@@ -58,6 +74,14 @@
       "location": "Madison, Wisconsin",
       "start": "Jan 2010",
       "end": "Jul 2012",
+      "employerSummary": [
+        "Long before managing large-scale technical programs, I was at a workbench, taking student and faculty",
+        "computers apart to find the 'why' behind a failure. This role was my first lesson in the importance of",
+        "systematic isolation—testing known variables to uncover the root cause of a problem. Beyond hardware, I",
+        "began looking for operational efficiencies, writing my first scripts to automate the deployment of",
+        "public-facing computer labs. It taught me the value of a 'trust but verify' mindset and established the",
+        "logical rigor I now use to navigate complex technical dependencies."
+      ],
       "highlights": []
     }
   ],

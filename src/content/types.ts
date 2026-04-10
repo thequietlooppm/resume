@@ -25,6 +25,13 @@ export interface ExperienceItem {
   start: string
   end: string
   highlights?: string[]
+  /**
+   * Shown once at the top of this employer’s card, above the first role title.
+   * Put it on any row for that company; the first occurrence in `resume.json` wins.
+   * Use a string array to break long copy across multiple JSON lines; parts are joined with spaces for display.
+   * Literal newlines (`\\n` in JSON) are preserved and render as line breaks.
+   */
+  employerSummary?: string | string[]
 }
 
 export interface EducationItem {
