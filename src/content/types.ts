@@ -51,6 +51,10 @@ export interface ProjectItem {
   description: string
   githubUrl: string
   demoUrl?: string
+  /** Path under `public/`, e.g. `/images/projects/sbrio.png`. Omit for the default gradient strip. */
+  imageSrc?: string
+  /** Chip “pills” on the card. Omit or use [] to hide the tag row. */
+  tags?: string[]
 }
 
 export interface Resume {

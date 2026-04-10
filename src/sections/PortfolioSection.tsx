@@ -15,16 +15,12 @@ import Typography from '@mui/material/Typography'
 import type { ProjectItem } from '../content/types'
 import { design } from '../theme'
 import { isGithubUrl } from '../utils/externalLinks'
+import { publicAssetPath } from '../utils/publicUrl'
 
 type Props = { projects: ProjectItem[] }
 
-/** Derive 2 short tags from project name / domain for “ledger” chips. */
-function tagsFor(project: ProjectItem): string[] {
-  const name = project.name.toUpperCase()
-  if (name.includes('LABVIEW') || name.includes('FPGA')) return ['LABVIEW', 'SYSTEMS']
-  if (name.includes('LOG')) return ['DATA', 'PIPELINE']
-  if (name.includes('RISC') || name.includes('NI')) return ['OPEN SOURCE', 'TOOLING']
-  return ['PROJECT', 'TPM']
+function normalizedTags(project: ProjectItem): string[] {
+  return (project.tags ?? []).map((t) => t.trim()).filter(Boolean)
 }
 
 export function PortfolioSection({ projects }: Props) {
@@ -45,13 +41,15 @@ export function PortfolioSection({ projects }: Props) {
               Portfolio
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1, maxWidth: 480 }}>
-              Selected technical work — scalable tooling, instrumentation, and platform thinking.
+              Selected personal and professional projects.
             </Typography>
           </Box>
         </Stack>
 
         <Grid container spacing={3}>
-          {projects.map((project) => (
+          {projects.map((project) => {
+            const tags = normalizedTags(project)
+            return (
             <Grid key={project.name} size={{ xs: 12, md: 4 }}>
               <Card
                 elevation={0}
@@ -69,34 +67,55 @@ export function PortfolioSection({ projects }: Props) {
                   },
                 }}
               >
-                <Box
-                  sx={{
-                    height: 140,
-                    background: `linear-gradient(160deg, rgba(77,142,255,0.35), rgba(19,27,46,0.95)), ${design.surfaceLow}`,
-                    borderBottom: design.ghostBorder,
-                  }}
-                />
+                {project.imageSrc ? (
+                  <Box
+                    component="img"
+                    src={publicAssetPath(project.imageSrc)}
+                    alt=""
+                    sx={{
+                      height: 140,
+                      width: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      borderBottom: design.ghostBorder,
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      height: 140,
+                      background: `linear-gradient(160deg, rgba(77,142,255,0.35), rgba(19,27,46,0.95)), ${design.surfaceLow}`,
+                      borderBottom: design.ghostBorder,
+                    }}
+                  />
+                )}
                 <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2.5 }}>
-                  <Typography variant="h5" component="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                  <Typography
+                    variant="h5"
+                    component="h3"
+                    sx={{ fontWeight: 700, mb: tags.length > 0 ? 1 : 2 }}
+                  >
                     {project.name}
                   </Typography>
-                  <Stack direction="row" flexWrap="wrap" gap={0.75} sx={{ mb: 2 }}>
-                    {tagsFor(project).map((t) => (
-                      <Chip
-                        key={t}
-                        label={t}
-                        size="small"
-                        sx={{
-                          fontFamily: 'ui-monospace, monospace',
-                          fontSize: '0.65rem',
-                          letterSpacing: '0.08em',
-                          bgcolor: 'rgba(138, 180, 255, 0.12)',
-                          color: 'primary.light',
-                          border: 'none',
-                        }}
-                      />
-                    ))}
-                  </Stack>
+                  {tags.length > 0 ? (
+                    <Stack direction="row" flexWrap="wrap" gap={0.75} sx={{ mb: 2 }}>
+                      {tags.map((t) => (
+                        <Chip
+                          key={t}
+                          label={t}
+                          size="small"
+                          sx={{
+                            fontFamily: 'ui-monospace, monospace',
+                            fontSize: '0.65rem',
+                            letterSpacing: '0.08em',
+                            bgcolor: 'rgba(138, 180, 255, 0.12)',
+                            color: 'primary.light',
+                            border: 'none',
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  ) : null}
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flex: 1 }}>
                     {project.description}
                   </Typography>
@@ -118,7 +137,8 @@ export function PortfolioSection({ projects }: Props) {
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+            )
+          })}
         </Grid>
       </Container>
     </Box>
