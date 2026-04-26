@@ -46,6 +46,18 @@ export interface EducationItem {
   campusPhoto?: string
 }
 
+/** Long-form in-page reader (white-paper style) for a portfolio project. */
+export interface ProjectDetailModal {
+  /** Modal header; defaults to the project `name`. */
+  title?: string
+  /**
+   * Slug for `src/content/portfolio/{markdown}.md` (no extension). Content is Markdown (GFM).
+   */
+  markdown: string
+  /** Card control label; default `Full write-up`. */
+  openLabel?: string
+}
+
 export interface ProjectItem {
   name: string
   description: string
@@ -55,6 +67,8 @@ export interface ProjectItem {
   imageSrc?: string
   /** Chip “pills” on the card. Omit or use [] to hide the tag row. */
   tags?: string[]
+  /** When set (and the `.md` file exists), opens a Markdown modal from `src/content/portfolio/`. */
+  detailModal?: ProjectDetailModal
 }
 
 export interface Resume {

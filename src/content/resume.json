@@ -117,19 +117,6 @@
       "description": "A narrative resume built to move beyond the static PDF and refine my agentic coding environment. This project served as a successful pilot, establishing the workflow and oversight needed to take on more complex projects.",
       "githubUrl": "https://github.com/thequietlooppm/resume",
       "tags": ["PERSONAL PROJECT", "AGENTIC CODING"]
-    },
-    {
-      "name": "sbRIO Data Logging",
-      "description": "LabVIEW Real-Time and FPGA application logging multiple analog channels at high daily volume.",
-      "githubUrl": "https://github.com/patrickwhagen",
-      "tags": ["LABVIEW", "SYSTEMS"]
-    },
-    {
-      "name": "LabVIEW FPGA RISC Processor",
-      "description": "Academic RISC processor on NI myRIO with pipeline stages, forwarding, and branch prediction; UI for assembly-style programs.",
-      "githubUrl": "https://github.com/patrickwhagen",
-      "demoUrl": "https://decibel.ni.com/content/docs/DOC-30450",
-      "tags": ["OPEN SOURCE", "TOOLING"]
     }
   ]
 }
