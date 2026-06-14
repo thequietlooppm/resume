@@ -167,21 +167,27 @@ export function PortfolioSection({ projects }: Props) {
                           {project.detailModal?.openLabel ?? 'Full write-up'}
                         </Button>
                       ) : null}
-                      <Link
-                        href={project.demoUrl ?? project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 0.5,
-                          fontWeight: 600,
-                          color: 'primary.main',
-                        }}
-                      >
-                        {project.demoUrl ? 'View case study' : isGithubUrl(project.githubUrl) ? 'GitHub repository' : 'Open link'}
-                        {project.demoUrl ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
-                      </Link>
+                      {project.demoUrl ?? project.githubUrl ? (
+                        <Link
+                          href={project.demoUrl ?? project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          sx={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 0.5,
+                            fontWeight: 600,
+                            color: 'primary.main',
+                          }}
+                        >
+                          {project.demoUrl
+                            ? 'View case study'
+                            : project.githubUrl && isGithubUrl(project.githubUrl)
+                              ? 'GitHub repository'
+                              : 'Open link'}
+                          {project.demoUrl ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
+                        </Link>
+                      ) : null}
                     </Stack>
                   </CardContent>
                 </Card>

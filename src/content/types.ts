@@ -61,7 +61,8 @@ export interface ProjectDetailModal {
 export interface ProjectItem {
   name: string
   description: string
-  githubUrl: string
+  /** Omit when the card only opens a `detailModal` write-up. */
+  githubUrl?: string
   demoUrl?: string
   /** Path under `public/`, e.g. `/images/projects/sbrio.png`. Omit for the default gradient strip. */
   imageSrc?: string

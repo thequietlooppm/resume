@@ -1,6 +1,8 @@
 /**
  * Long-form portfolio write-ups as Markdown files in `./portfolio/*.md`.
  * Referenced from `resume.json` via `detailModal.markdown` (slug without `.md`).
+ * After adding a new `.md` file, save this file or refresh the page if the write-up
+ * button does not appear (dev server re-scans the glob on portfolio file changes).
  */
 const rawByPath = import.meta.glob('./portfolio/*.md', {
   query: '?raw',

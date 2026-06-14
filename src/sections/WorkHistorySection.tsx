@@ -73,6 +73,26 @@ function groupExperience(jobs: ExperienceItem[]): {
   }))
 }
 
+/** Renders a highlight string, turning `[text](url)` tokens into clickable links. */
+function HighlightText({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
+  return (
+    <>
+      {parts.map((part, i) => {
+        const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+        if (match) {
+          return (
+            <Link key={i} href={match[2]} target="_blank" rel="noopener noreferrer" sx={{ color: 'primary.light' }}>
+              {match[1]}
+            </Link>
+          )
+        }
+        return <span key={i}>{part}</span>
+      })}
+    </>
+  )
+}
+
 type Props = { experience: ExperienceItem[] }
 
 export function WorkHistorySection({ experience }: Props) {
@@ -182,7 +202,7 @@ export function WorkHistorySection({ experience }: Props) {
                           <Stack component="ul" spacing={0.75} sx={{ m: 0, pl: 2, color: 'text.secondary' }}>
                             {job.highlights.map((h) => (
                               <Typography key={h} component="li" variant="body2">
-                                {h}
+                                <HighlightText text={h} />
                               </Typography>
                             ))}
                           </Stack>

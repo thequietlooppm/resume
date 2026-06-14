@@ -1,0 +1,39 @@
+<svg viewBox="0 0 800 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f1b35"/>
+      <stop offset="100%" style="stop-color:#1a2d52"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4d8eff;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#4d8eff;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="140" fill="url(#bg)"/>
+
+  <!-- Subtle accent bar -->
+  <rect width="400" height="2" y="0" fill="url(#accent)"/>
+
+  <!-- Ballot box icon, centered -->
+  <!-- Box body -->
+  <rect x="362" y="62" width="76" height="54" rx="4" fill="none" stroke="#4d8eff" stroke-width="2.5"/>
+  <!-- Slot on top -->
+  <rect x="392" y="56" width="16" height="10" rx="2" fill="none" stroke="#4d8eff" stroke-width="2.5"/>
+  <!-- Ballot paper going in -->
+  <rect x="397" y="38" width="6" height="22" rx="1" fill="#4d8eff" opacity="0.9"/>
+  <!-- Checkmark inside box -->
+  <polyline points="376,89 385,99 424,76" fill="none" stroke="#4d8eff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Decorative dots -->
+  <circle cx="60" cy="70" r="1.5" fill="#4d8eff" opacity="0.3"/>
+  <circle cx="80" cy="50" r="1" fill="#4d8eff" opacity="0.2"/>
+  <circle cx="100" cy="85" r="1.5" fill="#4d8eff" opacity="0.25"/>
+  <circle cx="720" cy="55" r="1.5" fill="#4d8eff" opacity="0.3"/>
+  <circle cx="740" cy="80" r="1" fill="#4d8eff" opacity="0.2"/>
+  <circle cx="760" cy="45" r="1.5" fill="#4d8eff" opacity="0.25"/>
+
+  <!-- Label -->
+  <text x="400" y="132" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" letter-spacing="3" fill="#4d8eff" opacity="0.5">SOCIAL ISSUES · ELECTORAL · POLITICAL ADS</text>
+</svg>

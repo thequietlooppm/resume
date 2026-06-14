@@ -1,6 +1,26 @@
 import { execSync } from 'node:child_process'
-import { defineConfig } from 'vite'
+import path from 'node:path'
+import { defineConfig, normalizePath, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+
+/** Re-evaluate `import.meta.glob('./portfolio/*.md')` when portfolio files change. */
+function portfolioMarkdownGlob(): Plugin {
+  const portfolioMarkdownId = normalizePath(path.resolve('src/content/portfolioMarkdown.ts'))
+
+  return {
+    name: 'portfolio-markdown-glob',
+    configureServer(server) {
+      const invalidate = (file: string) => {
+        if (!file.endsWith('.md') || !file.includes(`${path.sep}portfolio${path.sep}`)) return
+        const mod = server.moduleGraph.getModuleById(portfolioMarkdownId)
+        if (mod) server.moduleGraph.invalidateModule(mod)
+      }
+
+      server.watcher.on('add', invalidate)
+      server.watcher.on('unlink', invalidate)
+    },
+  }
+}
 
 /** Month + year of latest git commit (footer); falls back to today if git is unavailable. */
 function lastCommitMonthYearForBuild(): string {
@@ -23,7 +43,7 @@ function lastCommitMonthYearForBuild(): string {
 // GitHub Pages project site: https://<user>.github.io/<repo>/
 // Production builds must use base: '/<repo>/' so JS/CSS load from the subpath.
 export default defineConfig(({ mode }) => ({
-  plugins: [react()],
+  plugins: [react(), portfolioMarkdownGlob()],
   base: mode === 'production' ? '/resume/' : '/',
   define: {
     __LAST_COMMIT_MONTH_YEAR__: JSON.stringify(lastCommitMonthYearForBuild()),

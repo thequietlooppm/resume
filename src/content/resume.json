@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Patrick Hagen",
-    "title": "Technical Program Manager",
+    "title": "Principal Technical Program Manager",
     "location": "Minneapolis, Minnesota, United States",
     "photoSrc": "/images/headshot.png"
   },
@@ -11,23 +11,57 @@
     "linkedin": "https://www.linkedin.com/in/patrickwhagen/",
     "github": "https://github.com/thequietlooppm"
   },
-  "summary": "Technical Program Manager with over 10 years experience tackling the hardest integrity challenges at Meta.",
+  "summary": "Principal Technical Program Manager with over 10 years experience tackling the hardest integrity challenges at Meta.",
   "about": "Technical Product Leader with a foundation in Computer Engineering and an MBA. Proven track record at Meta (Facebook) of bridging the gap between complex engineering requirements and high-level business strategy. I specialize in leading cross-functional teams of technical and non-technical stakeholders to deliver business-critical objectives, ranging from public-facing products to sophisticated internal infrastructure.",
   "experience": [
+    {
+      "role": "Principal Technical Program Manager",
+      "company": "Meta (Facebook)",
+      "companyUrl": "https://www.meta.com/",
+      "location": "Austin, Texas",
+      "start": "Mar 2024",
+      "end": "Present",
+      "employerSummary": [
+        "My career at Meta began with a \"boots on the ground\" approach to operations. As an Analyst in 2015, I acted as a force multiplier for the team, ",
+        "shipping code, managing complex vendor relationships, and translating technical requirements for sales and their customers. This role taught me how ",
+        "to navigate the Meta ecosystem from the inside out. By owning the end-to-end delivery of diverse projects, I transitioned from a generalist ",
+        "contributor to a dedicated TPM, carrying forward a \"whatever it takes\" philosophy to project delivery at scale.\n\nAs a TPM, each program I took on grew in scope and complexity. What started as owning discrete workstreams evolved into leading multi-team, cross-functional programs with significant regulatory and business stakes. That progression pushed me to grow beyond execution and into leadership, becoming someone teams could rely on to navigate ambiguity, align competing priorities, and deliver under pressure."
+      ],
+      "highlights": [
+        "Own Meta's global regulatory reporting program, delivering transparency obligations across Facebook, Instagram, WhatsApp, Reality Labs, and all other apps and surfaces. Scaled reporting output by 200% over two years with minimal headcount growth by driving investments in tooling, data hygiene, and automation.",
+        "Took over ownership of the [Community Standards Enforcement Report](https://transparency.meta.com/reports/community-standards-enforcement/) and shipped its first meaningful update in years, introducing a new precision metric that publicly tracks enforcement mistakes. Wrote the supporting methodology documentation, aligned cross-functional teams on metric definitions and product experiences required to sustain the metric over time, and delivered on [Mark Zuckerberg's public commitment](https://about.fb.com/news/2025/01/meta-more-speech-fewer-mistakes/) to greater transparency around content moderation accuracy.",
+        "Led audit responses to inquiries from the EU Election Commission and the Federal Trade Commission, drawing on improved logging and data organization practices built to meet rising regulatory demands. Responses included detailed technical explanations of how logging systems work, where data challenges arose, and how those challenges were resolved to ensure the accuracy of reported figures. Satisfying these inquiries was critical, as non-compliance or inaccurate reporting carried the risk of formal investigations and significant financial penalties."
+      ]
+    },
+    {
+      "role": "Staff Technical Program Manager",
+      "company": "Meta (Facebook)",
+      "companyUrl": "https://www.meta.com/",
+      "location": "Austin, Texas",
+      "start": "Sep 2021",
+      "end": "Mar 2024",
+      "highlights": []
+    },
+    {
+      "role": "Senior Technical Program Manager",
+      "company": "Meta (Facebook)",
+      "companyUrl": "https://www.meta.com/",
+      "location": "Austin, Texas",
+      "start": "Mar 2019",
+      "end": "Sep 2021",
+      "highlights": []
+    },
     {
       "role": "Technical Program Manager",
       "company": "Meta (Facebook)",
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas",
       "start": "Dec 2017",
-      "end": "Present",
-      "employerSummary": [
-        "My career at Meta began with a \"boots on the ground\" approach to operations. As an Analyst in 2015, I acted as a force multiplier for the team, ",
-        "shipping code, managing complex vendor relationships, and translating technical requirements for sales and their customers. This role taught me how ",
-        "to navigate the Meta ecosystem from the inside out. By owning the end-to-end delivery of diverse projects, I transitioned from a generalist ",
-        "contributor to a dedicated TPM, carrying forward a \"whatever it takes\" philosophy to project delivery at scale."
-      ],
-      "highlights": []
+      "end": "Mar 2019",
+      "highlights": [
+        "Directed a high-stakes compliance initiative in response to civil rights litigation, leading a cross-functional team to build an advertiser certification portal that secured platform integrity while mitigating revenue loss through a strategic phased rollout.",
+        "Engineered a scalable enforcement infrastructure for political advertising that neutralized reviewer bias through a novel \"label-first\" UX, while reducing ad latency by enabling multi-policy parallel processing."
+      ]
     },
     {
       "role": "Ads Integrity Associate",
@@ -36,7 +70,10 @@
       "location": "Austin, Texas Area",
       "start": "Oct 2015",
       "end": "Dec 2017",
-      "highlights": []
+      "highlights": [
+        "Collaborated with engineering and policy teams to execute Meta’s Financial Services ad policy rollout, integrating ML classifiers and automated enforcement that prevented 1M+ misleading impressions in the first week.",
+        "Headed a pilot program to protect legitimate advertiser revenue by identifying approved business models prone to automated misclassification; reduced false-positive rejections by 50% while maintaining a flat prevalence of violating impressions."
+    ]
     },
     {
       "role": "Software Engineer",
@@ -112,6 +149,17 @@
     "Integrity & safety"
   ],
   "projects": [
+    {
+      "name": "Social Issues, Electoral & Political Ads",
+      "description": "Rebuilt Meta's ad review pipeline to support parallel policy enforcement for political ads.",
+      "imageSrc": "/images/india_alt.jpg",
+      "tags": ["META", "ADS INTEGRITY", "PLATFORM POLICY"],
+      "detailModal": {
+        "markdown": "siep",
+        "title": "Social Issues, Electoral & Political Ads",
+        "openLabel": "Full write-up"
+      }
+    },
     {
       "name": "Resume Website",
       "description": "A narrative resume built to move beyond the static PDF and refine my agentic coding environment. This project served as a successful pilot, establishing the workflow and oversight needed to take on more complex projects.",
