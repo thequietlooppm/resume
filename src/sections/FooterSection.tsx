@@ -12,15 +12,19 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
 import { design } from '../theme'
+import { safeHref, safeMailto } from '../utils/safeUrl'
 import { currentYear, lastCommitMonthYear } from '../utils/siteDates'
 
 type Props = { data: Resume }
 
 export function FooterSection({ data }: Props) {
-  const { basics, contact } = data
+  const { basics, contact, footer } = data
   const year = currentYear()
   const updated = lastCommitMonthYear()
+  const emailHref = safeMailto(contact.email)
   const emailLower = contact.email ? contact.email.toLowerCase() : ''
+  const linkedinHref = safeHref(contact.linkedin)
+  const githubHref = safeHref(contact.github)
 
   return (
     <Box
@@ -46,21 +50,21 @@ export function FooterSection({ data }: Props) {
               mb: 2,
             }}
           >
-            Ready for the{' '}
+            {footer.headingPrefix}{' '}
             <Box component="span" sx={{ background: design.gradientCta, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Next Challenge!
+              {footer.headingAccent}
             </Box>
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 520 }}>
-            While I have most of my experience in the integrity space, my passion is solving hard problems alongside brilliant people. Open to any roles in the Technical Program or Product Management space!  — let&apos;s connect.
+            {footer.pitch}
           </Typography>
         </Stack>
 
-        {contact.email ? (
+        {emailHref ? (
           <Stack alignItems="center" sx={{ mb: 6 }}>
             <Button
               component="a"
-              href={`mailto:${contact.email}`}
+              href={emailHref}
               variant="outlined"
               size="large"
               sx={{
@@ -92,9 +96,9 @@ export function FooterSection({ data }: Props) {
             © {year} {basics.name.toUpperCase()}. ALL RIGHTS RESERVED.
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
-            {contact.linkedin ? (
+            {linkedinHref ? (
               <Link
-                href={contact.linkedin}
+                href={linkedinHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', fontWeight: 600 }}
@@ -102,9 +106,9 @@ export function FooterSection({ data }: Props) {
                 <LinkedInIcon fontSize="small" /> LinkedIn
               </Link>
             ) : null}
-            {contact.github ? (
+            {githubHref ? (
               <Link
-                href={contact.github}
+                href={githubHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', fontWeight: 600 }}

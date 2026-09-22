@@ -1,17 +1,18 @@
 /**
- * About: photo + Meta badge, editorial copy, Engineering / Strategy pillar cards.
+ * About: photo + badge, editorial copy, pillar cards, and skills from `resume.json`.
  */
 import CodeIcon from '@mui/icons-material/Code'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import Chip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import type { Resume } from '../content/types'
+import type { AboutPillar, Resume } from '../content/types'
 import { design } from '../theme'
 import { initialsFromName } from '../utils/initials'
 import { publicAssetPath } from '../utils/publicUrl'
@@ -30,12 +31,19 @@ function splitSummary(text: string): [string, string] {
   return [first.trim(), rest.trim()]
 }
 
+function PillarIcon({ icon }: { icon: AboutPillar['icon'] }) {
+  const sx = { color: 'primary.main', mb: 1 }
+  if (icon === 'business') return <TrendingUpIcon sx={sx} />
+  return <CodeIcon sx={sx} />
+}
+
 export function AboutSection({ data }: Props) {
-  const { basics, about } = data
+  const { basics, about, aboutSection, skills } = data
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = basics.photoSrc && !photoFailed
   const photoUrl = basics.photoSrc ? publicAssetPath(basics.photoSrc) : undefined
   const [p1, p2] = splitSummary(about)
+  const visibleSkills = skills.map((s) => s.trim()).filter(Boolean)
 
   return (
     <Box
@@ -92,24 +100,26 @@ export function AboutSection({ data }: Props) {
                   </Stack>
                 )}
               </Box>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  bottom: 12,
-                  left: 12,
-                  right: 12,
-                  py: 1,
-                  px: 1.5,
-                  borderRadius: 2,
-                  bgcolor: 'rgba(11, 19, 38, 0.85)',
-                  backdropFilter: 'blur(8px)',
-                  border: design.ghostBorder,
-                }}
-              >
-                <Typography variant="caption" sx={{ fontWeight: 600, letterSpacing: '0.06em' }}>
-                  Currently · Meta Central Integrity TPM
-                </Typography>
-              </Box>
+              {aboutSection.badge ? (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 12,
+                    left: 12,
+                    right: 12,
+                    py: 1,
+                    px: 1.5,
+                    borderRadius: 2,
+                    bgcolor: 'rgba(11, 19, 38, 0.85)',
+                    backdropFilter: 'blur(8px)',
+                    border: design.ghostBorder,
+                  }}
+                >
+                  <Typography variant="caption" sx={{ fontWeight: 600, letterSpacing: '0.06em' }}>
+                    {aboutSection.badge}
+                  </Typography>
+                </Box>
+              ) : null}
             </Box>
           </Grid>
           <Grid size={{ xs: 12, md: 7 }}>
@@ -117,57 +127,54 @@ export function AboutSection({ data }: Props) {
               About
             </Typography>
             <Typography variant="h2" component="h2" sx={{ mt: 1, mb: 3, color: 'text.primary' }}>
-              My Blend of TPM
+              {aboutSection.heading}
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
               {p1}
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: visibleSkills.length ? 3 : 4 }}>
               {p2}
             </Typography>
+            {visibleSkills.length > 0 ? (
+              <Stack direction="row" flexWrap="wrap" gap={0.75} sx={{ mb: 4 }}>
+                {visibleSkills.map((skill) => (
+                  <Chip
+                    key={skill}
+                    label={skill}
+                    size="small"
+                    sx={{
+                      bgcolor: 'rgba(138, 180, 255, 0.12)',
+                      color: 'primary.light',
+                      border: design.ghostBorder,
+                    }}
+                  />
+                ))}
+              </Stack>
+            ) : null}
             <Grid container spacing={2}>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Card
-                  elevation={0}
-                  sx={{
-                    bgcolor: design.surfaceHigh,
-                    border: design.ghostBorder,
-                    backdropFilter: 'blur(10px)',
-                    height: '100%',
-                  }}
-                >
-                  <CardContent>
-                    <CodeIcon sx={{ color: 'primary.main', mb: 1 }} />
-                    <Typography variant="h4" component="h3" sx={{ mb: 0.5 }}>
-                      Engineering
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Engineering-rooted TPM adept at technical deep dives alongside software engineers, data engineers, and data scientists.
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Card
-                  elevation={0}
-                  sx={{
-                    bgcolor: design.surfaceHigh,
-                    border: design.ghostBorder,
-                    backdropFilter: 'blur(10px)',
-                    height: '100%',
-                  }}
-                >
-                  <CardContent>
-                    <TrendingUpIcon sx={{ color: 'primary.main', mb: 1 }} />
-                    <Typography variant="h4" component="h3" sx={{ mb: 0.5 }}>
-                      Business
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Business-minded TPM bridging the gap between technical and non-technical partners to deliver high-quality technical solutions that meet critical company objectives.                    
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+              {aboutSection.pillars.map((pillar) => (
+                <Grid key={pillar.title} size={{ xs: 12, sm: 6 }}>
+                  <Card
+                    elevation={0}
+                    sx={{
+                      bgcolor: design.surfaceHigh,
+                      border: design.ghostBorder,
+                      backdropFilter: 'blur(10px)',
+                      height: '100%',
+                    }}
+                  >
+                    <CardContent>
+                      <PillarIcon icon={pillar.icon} />
+                      <Typography variant="h4" component="h3" sx={{ mb: 0.5 }}>
+                        {pillar.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {pillar.body}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>

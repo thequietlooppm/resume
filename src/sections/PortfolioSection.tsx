@@ -21,6 +21,7 @@ import type { ProjectItem } from '../content/types'
 import { design } from '../theme'
 import { isGithubUrl } from '../utils/externalLinks'
 import { publicAssetPath } from '../utils/publicUrl'
+import { safeHref } from '../utils/safeUrl'
 
 /** Markdown dialog is code-split and only mounted once a write-up is requested,
  *  so `react-markdown` stays off the wire until then. */
@@ -72,6 +73,9 @@ export function PortfolioSection({ projects }: Props) {
             const tags = normalizedTags(project)
             const md = detailMarkdownFor(project)
             const hasDetail = Boolean(project.detailModal && md)
+            const demoHref = safeHref(project.demoUrl)
+            const githubHref = safeHref(project.githubUrl)
+            const projectHref = demoHref ?? githubHref
             return (
               <Grid key={project.name} size={{ xs: 12, md: 4 }}>
                 <Card
@@ -94,7 +98,7 @@ export function PortfolioSection({ projects }: Props) {
                     <Box
                       component="img"
                       src={publicAssetPath(project.imageSrc)}
-                      alt=""
+                      alt={project.name}
                       loading="lazy"
                       sx={{
                         height: 140,
@@ -166,9 +170,9 @@ export function PortfolioSection({ projects }: Props) {
                           {project.detailModal?.openLabel ?? 'Full write-up'}
                         </Button>
                       ) : null}
-                      {project.demoUrl ?? project.githubUrl ? (
+                      {projectHref ? (
                         <Link
-                          href={project.demoUrl ?? project.githubUrl}
+                          href={projectHref}
                           target="_blank"
                           rel="noopener noreferrer"
                           sx={{
@@ -179,12 +183,12 @@ export function PortfolioSection({ projects }: Props) {
                             color: 'primary.main',
                           }}
                         >
-                          {project.demoUrl
+                          {demoHref
                             ? 'View case study'
-                            : project.githubUrl && isGithubUrl(project.githubUrl)
+                            : githubHref && isGithubUrl(githubHref)
                               ? 'GitHub repository'
                               : 'Open link'}
-                          {project.demoUrl ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
+                          {demoHref ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
                         </Link>
                       ) : null}
                     </Stack>

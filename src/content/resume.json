@@ -1,4 +1,5 @@
 {
+  "contentVersion": "1",
   "basics": {
     "name": "Patrick Hagen",
     "title": "Principal Technical Program Manager",
@@ -13,10 +14,37 @@
   },
   "summary": "Principal Technical Program Manager with over 10 years experience tackling the hardest integrity challenges at Meta.",
   "about": "Technical Product Leader with a foundation in Computer Engineering and an MBA. Proven track record at Meta (Facebook) of bridging the gap between complex engineering requirements and high-level business strategy. I specialize in leading cross-functional teams of technical and non-technical stakeholders to deliver business-critical objectives, ranging from public-facing products to sophisticated internal infrastructure.",
+  "aboutSection": {
+    "badge": "Currently · Meta Central Integrity TPM",
+    "heading": "My Blend of TPM",
+    "pillars": [
+      {
+        "title": "Engineering",
+        "icon": "engineering",
+        "body": "Engineering-rooted TPM adept at technical deep dives alongside software engineers, data engineers, and data scientists."
+      },
+      {
+        "title": "Business",
+        "icon": "business",
+        "body": "Business-minded TPM bridging the gap between technical and non-technical partners to deliver high-quality technical solutions that meet critical company objectives."
+      }
+    ]
+  },
+  "footer": {
+    "headingPrefix": "Ready for the",
+    "headingAccent": "Next Challenge!",
+    "pitch": "While I have most of my experience in the integrity space, my passion is solving hard problems alongside brilliant people. Open to any roles in the Technical Program or Product Management space!  — let's connect."
+  },
   "experience": [
     {
       "role": "Principal Technical Program Manager",
       "company": "Meta (Facebook)",
+      "employerId": "meta",
+      "employerLabel": "Meta",
+      "logoSrc": "/images/logos/meta.svg",
+      "logoWidth": 24,
+      "fullWidth": true,
+      "sortOrder": 1,
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas",
       "start": "Mar 2024",
@@ -36,6 +64,7 @@
     {
       "role": "Staff Technical Program Manager",
       "company": "Meta (Facebook)",
+      "employerId": "meta",
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas",
       "start": "Sep 2021",
@@ -45,6 +74,7 @@
     {
       "role": "Senior Technical Program Manager",
       "company": "Meta (Facebook)",
+      "employerId": "meta",
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas",
       "start": "Mar 2019",
@@ -54,6 +84,7 @@
     {
       "role": "Technical Program Manager",
       "company": "Meta (Facebook)",
+      "employerId": "meta",
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas",
       "start": "Dec 2017",
@@ -66,6 +97,7 @@
     {
       "role": "Ads Integrity Associate",
       "company": "Facebook",
+      "employerId": "meta",
       "companyUrl": "https://www.meta.com/",
       "location": "Austin, Texas Area",
       "start": "Oct 2015",
@@ -78,6 +110,11 @@
     {
       "role": "Software Engineer",
       "company": "National Instruments",
+      "employerId": "ni",
+      "employerLabel": "National Instruments",
+      "logoSrc": "/images/logos/national-instruments.svg",
+      "logoWidth": 30,
+      "sortOrder": 2,
       "companyUrl": "https://www.ni.com/",
       "location": "Austin, Texas Area",
       "start": "Jul 2014",
@@ -99,6 +136,7 @@
     {
       "role": "Applications Engineer",
       "company": "National Instruments",
+      "employerId": "ni",
       "companyUrl": "https://www.ni.com/",
       "location": "Austin, Texas",
       "start": "Jul 2012",
@@ -108,6 +146,11 @@
     {
       "role": "Student Repair Technician",
       "company": "Division of Information Technology",
+      "employerId": "uw-it",
+      "employerLabel": "Division of Information Technology",
+      "logoSrc": "/images/logos/uw-madison.png",
+      "logoWidth": 28,
+      "sortOrder": 3,
       "location": "Madison, Wisconsin",
       "start": "Jan 2010",
       "end": "Jul 2012",
@@ -129,7 +172,10 @@
       "schoolUrl": "https://www.utexas.edu/",
       "location": "Austin, Texas",
       "start": "2014",
-      "end": "2017"
+      "end": "2017",
+      "campusPhoto": "/images/ut-austin-campus.png",
+      "objectPosition": "center 35%",
+      "accent": "business"
     },
     {
       "degree": "B.S., Computer Engineering & Computer Science",
@@ -138,7 +184,10 @@
       "location": "Madison, Wisconsin",
       "start": "2008",
       "end": "2012",
-      "details": ""
+      "details": "",
+      "campusPhoto": "/images/uw-madison-campus.png",
+      "objectPosition": "center 28%",
+      "accent": "engineering"
     }
   ],
   "skills": [
