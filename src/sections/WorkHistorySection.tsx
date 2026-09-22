@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography'
 import type { ExperienceItem } from '../content/types'
 import { design } from '../theme'
 import { publicAssetPath } from '../utils/publicUrl'
+import { safeHref } from '../utils/safeUrl'
 
 /** `public/images/logos/*` — add SVGs for other employers as needed. */
 function employerLogo(label: string): { path: string; imgWidth: number } | null {
@@ -81,8 +82,10 @@ function HighlightText({ text }: { text: string }) {
       {parts.map((part, i) => {
         const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
         if (match) {
+          const href = safeHref(match[2])
+          if (!href) return <span key={i}>{match[1]}</span>
           return (
-            <Link key={i} href={match[2]} target="_blank" rel="noopener noreferrer" sx={{ color: 'primary.light' }}>
+            <Link key={i} href={href} target="_blank" rel="noopener noreferrer" sx={{ color: 'primary.light' }}>
               {match[1]}
             </Link>
           )
@@ -124,6 +127,7 @@ export function WorkHistorySection({ experience }: Props) {
             const logo = employerLogo(g.label)
             const logoUrl = logo ? publicAssetPath(logo.path) : null
             const summaryText = formatEmployerSummary(g.employerSummary)
+            const companyHref = safeHref(g.url)
             return (
             <Grid key={g.label} size={workCardGridSize(g.label)}>
               <Card
@@ -138,8 +142,8 @@ export function WorkHistorySection({ experience }: Props) {
                 <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
                   <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} sx={{ mb: 2 }}>
                     <Box>
-                      {g.url ? (
-                        <Link href={g.url} target="_blank" rel="noopener noreferrer" variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                      {companyHref ? (
+                        <Link href={companyHref} target="_blank" rel="noopener noreferrer" variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
                           {g.label}
                         </Link>
                       ) : (
@@ -169,7 +173,7 @@ export function WorkHistorySection({ experience }: Props) {
                         <Box
                           component="img"
                           src={logoUrl}
-                          alt=""
+                          alt={`${g.label} logo`}
                           sx={{
                             width: logo?.imgWidth ?? 24,
                             height: 24,

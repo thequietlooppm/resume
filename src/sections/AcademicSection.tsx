@@ -16,6 +16,7 @@ import { useState } from 'react'
 import type { EducationItem } from '../content/types'
 import { design } from '../theme'
 import { publicAssetPath } from '../utils/publicUrl'
+import { safeHref } from '../utils/safeUrl'
 
 type Props = { education: EducationItem[] }
 
@@ -67,6 +68,7 @@ function EducationCard({ edu, index }: CardProps) {
   const rawPhoto = resolveCampusPhoto(edu)
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = Boolean(rawPhoto && !photoFailed)
+  const schoolHref = safeHref(edu.schoolUrl)
   const isWisconsin = edu.school.toLowerCase().includes('wisconsin')
   const isUtAustin =
     edu.school.toLowerCase().includes('texas') && edu.school.toLowerCase().includes('austin')
@@ -129,9 +131,9 @@ function EducationCard({ edu, index }: CardProps) {
               textShadow,
             }}
           >
-            {edu.schoolUrl ? (
+            {schoolHref ? (
               <Link
-                href={edu.schoolUrl}
+                href={schoolHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
