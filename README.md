@@ -51,7 +51,7 @@ Sections use MUI `Grid` / `Stack` with mobile-first stacking. Check **Chrome Dev
 
 This repo is configured for a **project site** (repo name `resume`):
 
-- **[`vite.config.ts`](vite.config.ts)** sets `base: '/resume/'` in **production** builds so scripts and styles load from `/resume/assets/...`.
+- **[`vite.config.ts`](vite.config.ts)** uses `BASE_PATH` (default `/resume/`) in **production** builds so scripts and styles load from `/resume/assets/...`. Set `SITE_URL` for the Open Graph URL (default `https://thequietlooppm.github.io/resume/`). The Pages workflow passes both.
 - **`npm run build`** copies `dist/index.html` → `dist/404.html` so [GitHub Pages can serve your SPA](https://github.com/orgs/community/discussions/36999) if deep links (e.g. `/resume/#projects`) are opened or refreshed directly. The app itself is a single continuous-scroll page with in-page anchor links (no client-side router).
 
 `npm run dev` still uses `base: '/'` (root), so local URLs stay `http://localhost:5173/...`.
@@ -64,7 +64,7 @@ npm run build && npm run preview
 
 Open **http://localhost:4173/resume/** — the single-page app loads there; use nav links or hashes like `#projects`.
 
-If you rename the GitHub repo, change **`/resume/`** in `vite.config.ts` to `/<new-repo-name>/`.
+If you rename the GitHub repo, set **`BASE_PATH`** and **`SITE_URL`** in `.github/workflows/static.yml` (and `ci.yml`) instead of hardcoding the path in Vite.
 
 ## Scripts
 

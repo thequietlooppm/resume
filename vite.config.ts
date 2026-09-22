@@ -34,6 +34,36 @@ function emitResumeJson(): Plugin {
   }
 }
 
+function withTrailingSlash(value: string): string {
+  return value.endsWith('/') ? value : `${value}/`
+}
+
+function productionBase(): string {
+  return withTrailingSlash(process.env.BASE_PATH || '/resume/')
+}
+
+function siteUrl(): string {
+  return withTrailingSlash(process.env.SITE_URL || 'https://thequietlooppm.github.io/resume/')
+}
+
+function htmlSiteMeta(canonical: string, injectCsp: boolean): Plugin {
+  const csp =
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'"
+  return {
+    name: 'html-site-meta',
+    transformIndexHtml(html) {
+      let next = html.replaceAll('__SITE_URL__', canonical)
+      if (injectCsp) {
+        next = next.replace(
+          '<meta name="viewport"',
+          `<meta http-equiv="Content-Security-Policy" content="${csp}" />\n    <meta name="viewport"`,
+        )
+      }
+      return next
+    },
+  }
+}
+
 /** Month + year of latest git commit (footer); falls back to today if git is unavailable. */
 function lastCommitMonthYearForBuild(): string {
   try {
@@ -54,10 +84,13 @@ function lastCommitMonthYearForBuild(): string {
 // https://vite.dev/config/
 // GitHub Pages project site: https://<user>.github.io/<repo>/
 // Production builds must use base: '/<repo>/' so JS/CSS load from the subpath.
-export default defineConfig(({ mode }) => ({
-  plugins: [react(), portfolioMarkdownGlob(), emitResumeJson()],
-  base: mode === 'production' ? '/resume/' : '/',
-  define: {
-    __LAST_COMMIT_MONTH_YEAR__: JSON.stringify(lastCommitMonthYearForBuild()),
-  },
-}))
+export default defineConfig(({ mode }) => {
+  const canonical = siteUrl()
+  return {
+    plugins: [react(), portfolioMarkdownGlob(), emitResumeJson(), htmlSiteMeta(canonical, mode === 'production')],
+    base: mode === 'production' ? productionBase() : '/',
+    define: {
+      __LAST_COMMIT_MONTH_YEAR__: JSON.stringify(lastCommitMonthYearForBuild()),
+    },
+  }
+})
