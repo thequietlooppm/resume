@@ -9,6 +9,7 @@ import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
@@ -21,7 +22,8 @@ import { design } from '../theme'
 import { isGithubUrl } from '../utils/externalLinks'
 import { publicAssetPath } from '../utils/publicUrl'
 
-/** Markdown dialog is code-split: `react-markdown` only loads when a write-up is opened. */
+/** Markdown dialog is code-split and only mounted once a write-up is requested,
+ *  so `react-markdown` stays off the wire until then. */
 const PortfolioDetailDialog = lazy(() => import('./PortfolioDetailDialog'))
 
 type Props = { projects: ProjectItem[] }
@@ -194,14 +196,22 @@ export function PortfolioSection({ projects }: Props) {
         </Grid>
       </Container>
 
-      <Suspense fallback={null}>
-        <PortfolioDetailDialog
-          open={Boolean(detailModal && detailMarkdown)}
-          title={detailModal?.title ?? detailProject?.name ?? 'Project'}
-          markdown={detailMarkdown}
-          onClose={() => setDetailOpenFor(null)}
-        />
-      </Suspense>
+      {detailOpenFor ? (
+        <Suspense
+          fallback={
+            <Box role="status" sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+              <CircularProgress aria-label="Loading write-up" />
+            </Box>
+          }
+        >
+          <PortfolioDetailDialog
+            open={Boolean(detailModal && detailMarkdown)}
+            title={detailModal?.title ?? detailProject?.name ?? 'Project'}
+            markdown={detailMarkdown}
+            onClose={() => setDetailOpenFor(null)}
+          />
+        </Suspense>
+      ) : null}
     </Box>
   )
 }

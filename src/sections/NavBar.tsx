@@ -26,6 +26,7 @@ type Props = { data: Resume }
 export function NavBar({ data }: Props) {
   const { basics } = data
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
+  const menuOpen = Boolean(menuAnchor)
   const closeMenu = () => setMenuAnchor(null)
 
   return (
@@ -83,46 +84,52 @@ export function NavBar({ data }: Props) {
             ))}
           </Stack>
 
-          <IconButton
-            aria-label="Open navigation menu"
-            onClick={(e) => setMenuAnchor(e.currentTarget)}
-            sx={{ display: { xs: 'inline-flex', md: 'none' }, color: 'text.primary' }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={menuAnchor}
-            open={Boolean(menuAnchor)}
-            onClose={closeMenu}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          >
-            {links.map((l) => (
-              <MenuItem key={l.id} component="a" href={`#${l.id}`} onClick={closeMenu}>
-                {l.label}
-              </MenuItem>
-            ))}
-          </Menu>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton
+              aria-label="Open navigation menu"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              aria-controls={menuOpen ? 'site-nav-menu' : undefined}
+              onClick={(e) => setMenuAnchor(e.currentTarget)}
+              sx={{ display: { xs: 'inline-flex', md: 'none' }, color: 'text.primary' }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="site-nav-menu"
+              anchorEl={menuAnchor}
+              open={menuOpen}
+              onClose={closeMenu}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              {links.map((l) => (
+                <MenuItem key={l.id} component="a" href={`#${l.id}`} onClick={closeMenu}>
+                  {l.label}
+                </MenuItem>
+              ))}
+            </Menu>
 
-          <Button
-            component="a"
-            href="#contact"
-            variant="contained"
-            sx={{
-              background: design.gradientCta,
-              color: design.onPrimary,
-              boxShadow: 'none',
-              px: 2.5,
-              borderRadius: 999,
-              '&:hover': {
+            <Button
+              component="a"
+              href="#contact"
+              variant="contained"
+              sx={{
                 background: design.gradientCta,
-                boxShadow: design.ambientShadow,
-                filter: 'brightness(1.05)',
-              },
-            }}
-          >
-            Contact
-          </Button>
+                color: design.onPrimary,
+                boxShadow: 'none',
+                px: 2.5,
+                borderRadius: 999,
+                '&:hover': {
+                  background: design.gradientCta,
+                  boxShadow: design.ambientShadow,
+                  filter: 'brightness(1.05)',
+                },
+              }}
+            >
+              Contact
+            </Button>
+          </Stack>
         </Stack>
       </Container>
     </Box>
