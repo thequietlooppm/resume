@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Resume } from '../content/types'
 import { design } from '../theme'
+import { safeHref, safeMailto } from '../utils/safeUrl'
 
 type Props = { data: Resume }
 
@@ -19,6 +20,9 @@ export function HeroSection({ data }: Props) {
   const { basics, contact, summary } = data
   const teaser =
     summary.length > 220 ? `${summary.slice(0, 217).trim()}…` : summary
+  const contactHref = safeMailto(contact.email) ?? '#contact'
+  const linkedinHref = safeHref(contact.linkedin)
+  const githubHref = safeHref(contact.github)
 
   return (
     <Box
@@ -73,7 +77,7 @@ export function HeroSection({ data }: Props) {
         <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
           <Button
             component="a"
-            href={contact.email ? `mailto:${contact.email}` : '#contact'}
+            href={contactHref}
             variant="contained"
             size="large"
             sx={{
@@ -94,26 +98,30 @@ export function HeroSection({ data }: Props) {
           <Link href="#about" variant="body1" sx={{ fontWeight: 600, color: 'primary.main' }}>
             Scroll for More ↓
           </Link>
-          <IconButton
-            component="a"
-            href={contact.linkedin!}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
-          >
-            <LinkedInIcon />
-          </IconButton>
-          <IconButton
-            component="a"
-            href={contact.github!}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
-          >
-            <GitHubIcon />
-          </IconButton>
+          {linkedinHref ? (
+            <IconButton
+              component="a"
+              href={linkedinHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
+            >
+              <LinkedInIcon />
+            </IconButton>
+          ) : null}
+          {githubHref ? (
+            <IconButton
+              component="a"
+              href={githubHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              sx={{ color: 'text.primary', border: design.ghostBorder, borderRadius: 2 }}
+            >
+              <GitHubIcon />
+            </IconButton>
+          ) : null}
         </Stack>
       </Container>
     </Box>
