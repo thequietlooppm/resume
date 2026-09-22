@@ -19,11 +19,19 @@ import { publicAssetPath } from '../utils/publicUrl'
 
 type Props = { education: EducationItem[] }
 
-function educationAccentIcon(school: string) {
+/** Stable module-level component — branches on static imports so no component
+ *  identity is created during render (react-hooks/static-components). */
+function SchoolAccentIcon({ school }: { school: string }) {
+  const sx = {
+    color: 'primary.light',
+    mb: 1.25,
+    fontSize: 32,
+    filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.85))',
+  } as const
   const s = school.toLowerCase()
-  if (s.includes('wisconsin')) return PrecisionManufacturingIcon
-  if (s.includes('texas') && s.includes('austin')) return BusinessCenterIcon
-  return SchoolIcon
+  if (s.includes('wisconsin')) return <PrecisionManufacturingIcon sx={sx} />
+  if (s.includes('texas') && s.includes('austin')) return <BusinessCenterIcon sx={sx} />
+  return <SchoolIcon sx={sx} />
 }
 
 /** Default campus images under `public/images/`. */
@@ -62,7 +70,6 @@ function EducationCard({ edu, index }: CardProps) {
   const isWisconsin = edu.school.toLowerCase().includes('wisconsin')
   const isUtAustin =
     edu.school.toLowerCase().includes('texas') && edu.school.toLowerCase().includes('austin')
-  const AccentIcon = educationAccentIcon(edu.school)
 
   return (
     <Card
@@ -79,6 +86,7 @@ function EducationCard({ edu, index }: CardProps) {
         <Box
           component="img"
           alt=""
+          loading="lazy"
           src={rawPhoto}
           onError={() => setPhotoFailed(true)}
           sx={{
@@ -110,14 +118,7 @@ function EducationCard({ edu, index }: CardProps) {
         }}
       >
         <Box>
-          <AccentIcon
-            sx={{
-              color: 'primary.light',
-              mb: 1.25,
-              fontSize: 32,
-              filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.85))',
-            }}
-          />
+          <SchoolAccentIcon school={edu.school} />
           <Typography
             variant="h5"
             component="h3"

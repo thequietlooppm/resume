@@ -4,8 +4,13 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import MenuIcon from '@mui/icons-material/Menu'
+import { useState } from 'react'
 import { design } from '../theme'
 import type { Resume } from '../content/types'
 
@@ -20,6 +25,9 @@ type Props = { data: Resume }
 
 export function NavBar({ data }: Props) {
   const { basics } = data
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
+  const menuOpen = Boolean(menuAnchor)
+  const closeMenu = () => setMenuAnchor(null)
 
   return (
     <Box
@@ -76,25 +84,52 @@ export function NavBar({ data }: Props) {
             ))}
           </Stack>
 
-          <Button
-            component="a"
-            href="#contact"
-            variant="contained"
-            sx={{
-              background: design.gradientCta,
-              color: design.onPrimary,
-              boxShadow: 'none',
-              px: 2.5,
-              borderRadius: 999,
-              '&:hover': {
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton
+              aria-label="Open navigation menu"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              aria-controls={menuOpen ? 'site-nav-menu' : undefined}
+              onClick={(e) => setMenuAnchor(e.currentTarget)}
+              sx={{ display: { xs: 'inline-flex', md: 'none' }, color: 'text.primary' }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="site-nav-menu"
+              anchorEl={menuAnchor}
+              open={menuOpen}
+              onClose={closeMenu}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              {links.map((l) => (
+                <MenuItem key={l.id} component="a" href={`#${l.id}`} onClick={closeMenu}>
+                  {l.label}
+                </MenuItem>
+              ))}
+            </Menu>
+
+            <Button
+              component="a"
+              href="#contact"
+              variant="contained"
+              sx={{
                 background: design.gradientCta,
-                boxShadow: design.ambientShadow,
-                filter: 'brightness(1.05)',
-              },
-            }}
-          >
-            Contact
-          </Button>
+                color: design.onPrimary,
+                boxShadow: 'none',
+                px: 2.5,
+                borderRadius: 999,
+                '&:hover': {
+                  background: design.gradientCta,
+                  boxShadow: design.ambientShadow,
+                  filter: 'brightness(1.05)',
+                },
+              }}
+            >
+              Contact
+            </Button>
+          </Stack>
         </Stack>
       </Container>
     </Box>

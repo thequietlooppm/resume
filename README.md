@@ -52,8 +52,7 @@ Sections use MUI `Grid` / `Stack` with mobile-first stacking. Check **Chrome Dev
 This repo is configured for a **project site** (repo name `resume`):
 
 - **[`vite.config.ts`](vite.config.ts)** sets `base: '/resume/'` in **production** builds so scripts and styles load from `/resume/assets/...`.
-- **[`src/App.tsx`](src/App.tsx)** sets `BrowserRouter` `basename` from `import.meta.env.BASE_URL` so in-app links match that path.
-- **`npm run build`** copies `dist/index.html` → `dist/404.html` so [GitHub Pages can serve your SPA](https://github.com/orgs/community/discussions/36999) when users open or refresh a deep link (e.g. `/resume/projects`).
+- **`npm run build`** copies `dist/index.html` → `dist/404.html` so [GitHub Pages can serve your SPA](https://github.com/orgs/community/discussions/36999) if deep links (e.g. `/resume/#projects`) are opened or refreshed directly. The app itself is a single continuous-scroll page with in-page anchor links (no client-side router).
 
 `npm run dev` still uses `base: '/'` (root), so local URLs stay `http://localhost:5173/...`.
 

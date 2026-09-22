@@ -2,7 +2,6 @@
  * Portfolio grid from `resume.projects` — ledger-style tags, external links, optional Markdown modal.
  */
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import CloseIcon from '@mui/icons-material/Close'
 import LaunchIcon from '@mui/icons-material/Launch'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import Box from '@mui/material/Box'
@@ -10,23 +9,22 @@ import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { Suspense, lazy, useState } from 'react'
 import { getPortfolioMarkdown } from '../content/portfolioMarkdown'
 import type { ProjectItem } from '../content/types'
 import { design } from '../theme'
 import { isGithubUrl } from '../utils/externalLinks'
 import { publicAssetPath } from '../utils/publicUrl'
+
+/** Markdown dialog is code-split and only mounted once a write-up is requested,
+ *  so `react-markdown` stays off the wire until then. */
+const PortfolioDetailDialog = lazy(() => import('./PortfolioDetailDialog'))
 
 type Props = { projects: ProjectItem[] }
 
@@ -97,6 +95,7 @@ export function PortfolioSection({ projects }: Props) {
                       component="img"
                       src={publicAssetPath(project.imageSrc)}
                       alt=""
+                      loading="lazy"
                       sx={{
                         height: 140,
                         width: '100%',
@@ -197,153 +196,22 @@ export function PortfolioSection({ projects }: Props) {
         </Grid>
       </Container>
 
-      <Dialog
-        open={Boolean(detailModal && detailMarkdown)}
-        onClose={() => setDetailOpenFor(null)}
-        maxWidth="md"
-        fullWidth
-        scroll="paper"
-        aria-labelledby="portfolio-detail-title"
-        slotProps={{
-          paper: {
-            sx: {
-              bgcolor: design.surfaceHigh,
-              backgroundImage: 'none',
-              border: design.ghostBorder,
-              maxHeight: 'min(92vh, 880px)',
-            },
-          },
-        }}
-      >
-        {detailModal && detailMarkdown ? (
-          <>
-            <DialogTitle
-              id="portfolio-detail-title"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 2,
-                pr: 1,
-                borderBottom: design.ghostBorder,
-                color: 'text.primary',
-                fontFamily: '"Space Grotesk", system-ui, sans-serif',
-                fontWeight: 700,
-                fontSize: '1.15rem',
-              }}
-            >
-              {detailModal.title ?? detailProject?.name ?? 'Project'}
-              <IconButton
-                type="button"
-                onClick={() => setDetailOpenFor(null)}
-                aria-label="Close"
-                sx={{ color: 'text.secondary' }}
-              >
-                <CloseIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-              <Box
-                className="portfolio-markdown-paper"
-                sx={{
-                  bgcolor: '#f4f1eb',
-                  color: '#1c1b19',
-                  borderRadius: 1,
-                  px: { xs: 2.5, sm: 3.5 },
-                  py: { xs: 2.5, sm: 3.5 },
-                  maxHeight: 'min(68vh, 640px)',
-                  overflow: 'auto',
-                  boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.07)',
-                  fontFamily: '"Georgia", "Times New Roman", serif',
-                  fontSize: '1.0625rem',
-                  lineHeight: 1.75,
-                  '& h1': {
-                    fontSize: '1.65rem',
-                    fontWeight: 700,
-                    fontFamily: 'inherit',
-                    mt: 0,
-                    mb: 2,
-                    lineHeight: 1.25,
-                  },
-                  '& h2': {
-                    fontSize: '1.3rem',
-                    fontWeight: 700,
-                    fontFamily: 'inherit',
-                    mt: 3,
-                    mb: 1.25,
-                    lineHeight: 1.3,
-                  },
-                  '& h3': {
-                    fontSize: '1.1rem',
-                    fontWeight: 700,
-                    fontFamily: 'inherit',
-                    mt: 2.5,
-                    mb: 1,
-                  },
-                  '& p': { mb: 2, mt: 0 },
-                  '& ul, & ol': { pl: 2.5, mb: 2, mt: 0 },
-                  '& li': { mb: 0.5 },
-                  '& a': { color: '#0b57d0', textDecoration: 'underline', wordBreak: 'break-word' },
-                  '& a:hover': { color: '#0842a0' },
-                  '& code': {
-                    fontFamily: 'ui-monospace, monospace',
-                    fontSize: '0.88em',
-                    bgcolor: 'rgba(0,0,0,0.07)',
-                    px: 0.5,
-                    borderRadius: 0.5,
-                  },
-                  '& pre': {
-                    fontFamily: 'ui-monospace, monospace',
-                    fontSize: '0.85em',
-                    bgcolor: 'rgba(0,0,0,0.06)',
-                    p: 2,
-                    borderRadius: 1,
-                    overflow: 'auto',
-                    mb: 2,
-                    lineHeight: 1.5,
-                  },
-                  '& pre code': { bgcolor: 'transparent', p: 0 },
-                  '& blockquote': {
-                    borderLeft: '4px solid rgba(0,0,0,0.15)',
-                    pl: 2,
-                    ml: 0,
-                    mr: 0,
-                    my: 2,
-                    color: 'rgba(0,0,0,0.78)',
-                  },
-                  '& table': {
-                    width: '100%',
-                    borderCollapse: 'collapse',
-                    mb: 2,
-                    fontSize: '0.95em',
-                  },
-                  '& th, & td': {
-                    border: '1px solid rgba(0,0,0,0.12)',
-                    px: 1.5,
-                    py: 1,
-                    textAlign: 'left',
-                  },
-                  '& th': { bgcolor: 'rgba(0,0,0,0.04)', fontWeight: 700 },
-                  '& hr': { border: 'none', borderTop: '1px solid rgba(0,0,0,0.12)', my: 3 },
-                }}
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    a: ({ href, children, ...props }) => (
-                      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-                        {children}
-                      </a>
-                    ),
-                  }}
-                >
-                  {detailMarkdown}
-                </ReactMarkdown>
-              </Box>
-            </DialogContent>
-          </>
-        ) : null}
-      </Dialog>
+      {detailOpenFor ? (
+        <Suspense
+          fallback={
+            <Box role="status" sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+              <CircularProgress aria-label="Loading write-up" />
+            </Box>
+          }
+        >
+          <PortfolioDetailDialog
+            open={Boolean(detailModal && detailMarkdown)}
+            title={detailModal?.title ?? detailProject?.name ?? 'Project'}
+            markdown={detailMarkdown}
+            onClose={() => setDetailOpenFor(null)}
+          />
+        </Suspense>
+      ) : null}
     </Box>
   )
 }

@@ -4,7 +4,8 @@
  */
 export function isGithubUrl(url: string): boolean {
   try {
-    return new URL(url).hostname.replace(/^www\./, '').includes('github.com')
+    const host = new URL(url).hostname.replace(/^www\./, '').toLowerCase()
+    return host === 'github.com' || host.endsWith('.github.com')
   } catch {
     return false
   }
