@@ -14,14 +14,6 @@ import { design } from '../theme'
 import { publicAssetPath } from '../utils/publicUrl'
 import { safeHref } from '../utils/safeUrl'
 
-/** `public/images/logos/*` — add SVGs for other employers as needed. */
-function employerLogo(label: string): { path: string; imgWidth: number } | null {
-  if (label === 'Meta') return { path: '/images/logos/meta.svg', imgWidth: 24 }
-  if (label === 'National Instruments') return { path: '/images/logos/national-instruments.svg', imgWidth: 30 }
-  if (label === 'Division of Information Technology') return { path: '/images/logos/uw-madison.png', imgWidth: 28 }
-  return null
-}
-
 /**
  * Join `employerSummary` chunks for display; arrays are for editor-friendly JSON only.
  * Newlines inside strings are kept; the summary `Typography` uses `pre-line` so `\n` becomes a line break.
@@ -36,42 +28,51 @@ function formatEmployerSummary(value: string | string[] | undefined): string | u
   return t.length ? t : undefined
 }
 
-function companyKey(company: string): string {
-  const c = company.toLowerCase()
-  if (c.includes('meta') || c.includes('facebook')) return 'Meta'
-  if (c.includes('national instruments')) return 'National Instruments'
-  return company
-}
-
-/** Meta spans full row on md+; other employers pair as half-width cards. */
-function workCardGridSize(label: string): { xs: number; md: number } {
-  return label === 'Meta' ? { xs: 12, md: 12 } : { xs: 12, md: 6 }
-}
-
-function groupExperience(jobs: ExperienceItem[]): {
+type EmployerGroup = {
+  id: string
   label: string
   url?: string
+  logoSrc?: string
+  logoWidth?: number
+  fullWidth: boolean
+  sortOrder: number
   employerSummary?: string | string[]
   items: ExperienceItem[]
-}[] {
-  const map = new Map<string, { url?: string; employerSummary?: string | string[]; items: ExperienceItem[] }>()
+}
+
+function groupExperience(jobs: ExperienceItem[]): EmployerGroup[] {
+  const map = new Map<string, EmployerGroup>()
+  let autoOrder = 0
   for (const job of jobs) {
-    const label = companyKey(job.company)
-    const existing = map.get(label)
-    const url = job.companyUrl ?? existing?.url
-    const items = existing ? [...existing.items, job] : [job]
-    const employerSummary = existing?.employerSummary ?? job.employerSummary
-    map.set(label, { url, items, employerSummary })
+    const id = job.employerId?.trim() || job.company
+    const existing = map.get(id)
+    if (!existing) {
+      autoOrder += 1
+      map.set(id, {
+        id,
+        label: job.employerLabel ?? job.company,
+        url: job.companyUrl,
+        logoSrc: job.logoSrc,
+        logoWidth: job.logoWidth,
+        fullWidth: Boolean(job.fullWidth),
+        sortOrder: job.sortOrder ?? autoOrder + 100,
+        employerSummary: job.employerSummary,
+        items: [job],
+      })
+      continue
+    }
+    existing.items.push(job)
+    existing.url = existing.url ?? job.companyUrl
+    existing.logoSrc = existing.logoSrc ?? job.logoSrc
+    existing.logoWidth = existing.logoWidth ?? job.logoWidth
+    existing.fullWidth = existing.fullWidth || Boolean(job.fullWidth)
+    if (job.employerLabel && existing.label === existing.items[0]?.company) {
+      existing.label = job.employerLabel
+    }
+    existing.employerSummary = existing.employerSummary ?? job.employerSummary
+    if (job.sortOrder != null) existing.sortOrder = Math.min(existing.sortOrder, job.sortOrder)
   }
-  const order = ['Meta', 'National Instruments']
-  const rest = [...map.keys()].filter((k) => !order.includes(k))
-  const keys = [...order.filter((k) => map.has(k)), ...rest.filter((k) => map.has(k))]
-  return keys.map((label) => ({
-    label,
-    url: map.get(label)!.url,
-    employerSummary: map.get(label)!.employerSummary,
-    items: map.get(label)!.items,
-  }))
+  return [...map.values()].sort((a, b) => a.sortOrder - b.sortOrder)
 }
 
 /** Renders a highlight string, turning `[text](url)` tokens into clickable links. */
@@ -124,12 +125,11 @@ export function WorkHistorySection({ experience }: Props) {
 
         <Grid container spacing={3}>
           {groups.map((g) => {
-            const logo = employerLogo(g.label)
-            const logoUrl = logo ? publicAssetPath(logo.path) : null
+            const logoUrl = g.logoSrc ? publicAssetPath(g.logoSrc) : null
             const summaryText = formatEmployerSummary(g.employerSummary)
             const companyHref = safeHref(g.url)
             return (
-            <Grid key={g.label} size={workCardGridSize(g.label)}>
+            <Grid key={g.id} size={{ xs: 12, md: g.fullWidth ? 12 : 6 }}>
               <Card
                 elevation={0}
                 sx={{
@@ -175,7 +175,7 @@ export function WorkHistorySection({ experience }: Props) {
                           src={logoUrl}
                           alt={`${g.label} logo`}
                           sx={{
-                            width: logo?.imgWidth ?? 24,
+                            width: g.logoWidth ?? 24,
                             height: 24,
                             objectFit: 'contain',
                             display: 'block',

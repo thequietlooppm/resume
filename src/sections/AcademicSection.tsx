@@ -22,30 +22,16 @@ type Props = { education: EducationItem[] }
 
 /** Stable module-level component — branches on static imports so no component
  *  identity is created during render (react-hooks/static-components). */
-function SchoolAccentIcon({ school }: { school: string }) {
+function SchoolAccentIcon({ accent }: { accent: EducationItem['accent'] }) {
   const sx = {
     color: 'primary.light',
     mb: 1.25,
     fontSize: 32,
     filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.85))',
   } as const
-  const s = school.toLowerCase()
-  if (s.includes('wisconsin')) return <PrecisionManufacturingIcon sx={sx} />
-  if (s.includes('texas') && s.includes('austin')) return <BusinessCenterIcon sx={sx} />
+  if (accent === 'engineering') return <PrecisionManufacturingIcon sx={sx} />
+  if (accent === 'business') return <BusinessCenterIcon sx={sx} />
   return <SchoolIcon sx={sx} />
-}
-
-/** Default campus images under `public/images/`. */
-function defaultCampusPhotoPath(school: string): string | null {
-  const s = school.toLowerCase()
-  if (s.includes('wisconsin')) return '/images/uw-madison-campus.png'
-  if (s.includes('texas') && s.includes('austin')) return '/images/ut-austin-campus.png'
-  return null
-}
-
-function resolveCampusPhoto(edu: EducationItem): string | null {
-  const path = edu.campusPhoto ?? defaultCampusPhotoPath(edu.school)
-  return path ? publicAssetPath(path) : null
 }
 
 function cardBackgroundFallback(index: number): string {
@@ -65,13 +51,10 @@ const scrim =
 type CardProps = { edu: EducationItem; index: number }
 
 function EducationCard({ edu, index }: CardProps) {
-  const rawPhoto = resolveCampusPhoto(edu)
+  const rawPhoto = edu.campusPhoto ? publicAssetPath(edu.campusPhoto) : null
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = Boolean(rawPhoto && !photoFailed)
   const schoolHref = safeHref(edu.schoolUrl)
-  const isWisconsin = edu.school.toLowerCase().includes('wisconsin')
-  const isUtAustin =
-    edu.school.toLowerCase().includes('texas') && edu.school.toLowerCase().includes('austin')
 
   return (
     <Card
@@ -97,7 +80,7 @@ function EducationCard({ edu, index }: CardProps) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: isWisconsin ? 'center 28%' : isUtAustin ? 'center 35%' : 'center center',
+            objectPosition: edu.objectPosition ?? 'center center',
             zIndex: 0,
           }}
         />
@@ -120,7 +103,7 @@ function EducationCard({ edu, index }: CardProps) {
         }}
       >
         <Box>
-          <SchoolAccentIcon school={edu.school} />
+          <SchoolAccentIcon accent={edu.accent} />
           <Typography
             variant="h5"
             component="h3"

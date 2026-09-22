@@ -71,6 +71,7 @@ If you rename the GitHub repo, change **`/resume/`** in `vite.config.ts` to `/<n
 | Command        | Action                          |
 |----------------|---------------------------------|
 | `npm run dev`  | Dev server with hot reload      |
-| `npm run build`| Typecheck + production bundle   |
+| `npm run build`| Content-path check + typecheck + production bundle |
+| `npm run check-content` | Verify image/Markdown paths in `resume.json` exist |
 | `npm run preview` | Serve `dist/` locally      |
 | `npm run lint` | ESLint                          |

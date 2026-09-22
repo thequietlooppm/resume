@@ -17,6 +17,25 @@ export interface Contact {
   github?: string
 }
 
+export interface AboutPillar {
+  title: string
+  body: string
+  /** Maps to a small icon in AboutSection (`engineering` | `business`). */
+  icon?: 'engineering' | 'business'
+}
+
+export interface AboutSectionContent {
+  badge: string
+  heading: string
+  pillars: AboutPillar[]
+}
+
+export interface FooterContent {
+  headingPrefix: string
+  headingAccent: string
+  pitch: string
+}
+
 export interface ExperienceItem {
   role: string
   company: string
@@ -26,6 +45,20 @@ export interface ExperienceItem {
   end: string
   highlights?: string[]
   /**
+   * Groups roles onto one employer card. Jobs that share an id (e.g. Meta and Facebook)
+   * render together. Defaults to `company` when omitted.
+   */
+  employerId?: string
+  /** Card heading. Defaults to `company`. Set on any row; the first occurrence wins. */
+  employerLabel?: string
+  /** Path under `public/`, e.g. `/images/logos/meta.svg`. First occurrence wins. */
+  logoSrc?: string
+  logoWidth?: number
+  /** Full-width card on md+. First occurrence wins. */
+  fullWidth?: boolean
+  /** Lower numbers first among employer cards. First occurrence wins. */
+  sortOrder?: number
+  /**
    * Shown once at the top of this employer’s card, above the first role title.
    * Put it on any row for that company; the first occurrence in `resume.json` wins.
    * Use a string array to break long copy across multiple JSON lines; parts are joined with spaces for display.
@@ -33,6 +66,8 @@ export interface ExperienceItem {
    */
   employerSummary?: string | string[]
 }
+
+export type EducationAccent = 'engineering' | 'business' | 'school'
 
 export interface EducationItem {
   degree: string
@@ -42,8 +77,11 @@ export interface EducationItem {
   start: string
   end: string
   details?: string
-  /** Optional `public/` path, e.g. `/images/ut-austin-campus.png` (overrides name-based default). */
+  /** Optional `public/` path, e.g. `/images/ut-austin-campus.png`. */
   campusPhoto?: string
+  /** CSS `object-position` for the campus photo, e.g. `center 35%`. */
+  objectPosition?: string
+  accent?: EducationAccent
 }
 
 /** Long-form in-page reader (white-paper style) for a portfolio project. */
@@ -73,10 +111,14 @@ export interface ProjectItem {
 }
 
 export interface Resume {
+  /** Bump when the JSON shape changes so other clients can detect incompatibility. */
+  contentVersion: string
   basics: Basics
   contact: Contact
   summary: string
   about: string
+  aboutSection: AboutSectionContent
+  footer: FooterContent
   experience: ExperienceItem[]
   education: EducationItem[]
   skills: string[]
