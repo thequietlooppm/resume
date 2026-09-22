@@ -52,7 +52,7 @@ export function FooterSection({ data }: Props) {
             </Box>
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 520 }}>
-            While I have most of my experience in the integrity space, my passion is solving hard problems alongside briliant people. Open to any roles in the Techincal Program or Product Management space!  — let&apos;s connect.
+            While I have most of my experience in the integrity space, my passion is solving hard problems alongside brilliant people. Open to any roles in the Technical Program or Product Management space!  — let&apos;s connect.
           </Typography>
         </Stack>
 

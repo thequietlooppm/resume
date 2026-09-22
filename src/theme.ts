@@ -1,6 +1,6 @@
 /**
- * Dark “Architectural Architect” theme aligned with DESIGN.md:
- * midnight surfaces, primary as light source, Space Grotesk + Inter.
+ * Dark editorial theme: midnight surfaces, primary as light source,
+ * Space Grotesk + Inter.
  */
 import { createTheme } from '@mui/material/styles'
 

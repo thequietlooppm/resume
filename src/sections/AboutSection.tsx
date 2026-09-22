@@ -66,7 +66,7 @@ export function AboutSection({ data }: Props) {
                 {showPhoto && photoUrl ? (
                   <Box
                     component="img"
-                    alt=""
+                    alt={basics.name}
                     src={photoUrl}
                     onError={() => setPhotoFailed(true)}
                     sx={{

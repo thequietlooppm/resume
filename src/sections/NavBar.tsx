@@ -4,8 +4,13 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import MenuIcon from '@mui/icons-material/Menu'
+import { useState } from 'react'
 import { design } from '../theme'
 import type { Resume } from '../content/types'
 
@@ -20,6 +25,8 @@ type Props = { data: Resume }
 
 export function NavBar({ data }: Props) {
   const { basics } = data
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
+  const closeMenu = () => setMenuAnchor(null)
 
   return (
     <Box
@@ -75,6 +82,27 @@ export function NavBar({ data }: Props) {
               </Button>
             ))}
           </Stack>
+
+          <IconButton
+            aria-label="Open navigation menu"
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
+            sx={{ display: { xs: 'inline-flex', md: 'none' }, color: 'text.primary' }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={closeMenu}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            {links.map((l) => (
+              <MenuItem key={l.id} component="a" href={`#${l.id}`} onClick={closeMenu}>
+                {l.label}
+              </MenuItem>
+            ))}
+          </Menu>
 
           <Button
             component="a"
