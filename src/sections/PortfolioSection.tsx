@@ -16,11 +16,12 @@ import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { Suspense, lazy, useState } from 'react'
-import { getPortfolioMarkdown } from '../content/portfolioMarkdown'
+import { hasPortfolioMarkdown, loadPortfolioMarkdown } from '../content/portfolioMarkdown'
 import type { ProjectItem } from '../content/types'
 import { design } from '../theme'
 import { isGithubUrl } from '../utils/externalLinks'
 import { publicAssetPath } from '../utils/publicUrl'
+import { safeHref } from '../utils/safeUrl'
 
 /** Markdown dialog is code-split and only mounted once a write-up is requested,
  *  so `react-markdown` stays off the wire until then. */
@@ -32,18 +33,33 @@ function normalizedTags(project: ProjectItem): string[] {
   return (project.tags ?? []).map((t) => t.trim()).filter(Boolean)
 }
 
-function detailMarkdownFor(project: ProjectItem): string | undefined {
+function hasDetailWriteup(project: ProjectItem): boolean {
   const slug = project.detailModal?.markdown?.trim()
-  if (!slug) return undefined
-  const raw = getPortfolioMarkdown(slug)
-  return raw?.trim() || undefined
+  return Boolean(slug && hasPortfolioMarkdown(slug))
 }
 
 export function PortfolioSection({ projects }: Props) {
   const [detailOpenFor, setDetailOpenFor] = useState<string | null>(null)
+  const [loadedWriteup, setLoadedWriteup] = useState<{ name: string; markdown: string } | null>(null)
   const detailProject = detailOpenFor ? projects.find((p) => p.name === detailOpenFor) : undefined
   const detailModal = detailProject?.detailModal
-  const detailMarkdown = detailProject ? detailMarkdownFor(detailProject) : undefined
+  const detailMarkdown =
+    loadedWriteup && loadedWriteup.name === detailOpenFor ? loadedWriteup.markdown : undefined
+
+  function closeDetail() {
+    setDetailOpenFor(null)
+    setLoadedWriteup(null)
+  }
+
+  function openDetail(project: ProjectItem) {
+    setDetailOpenFor(project.name)
+    const slug = project.detailModal?.markdown?.trim()
+    if (!slug) return
+    void loadPortfolioMarkdown(slug).then((md) => {
+      if (!md) return
+      setLoadedWriteup({ name: project.name, markdown: md })
+    })
+  }
 
   return (
     <Box
@@ -70,8 +86,10 @@ export function PortfolioSection({ projects }: Props) {
         <Grid container spacing={3}>
           {projects.map((project) => {
             const tags = normalizedTags(project)
-            const md = detailMarkdownFor(project)
-            const hasDetail = Boolean(project.detailModal && md)
+            const hasDetail = hasDetailWriteup(project)
+            const demoHref = safeHref(project.demoUrl)
+            const githubHref = safeHref(project.githubUrl)
+            const projectHref = demoHref ?? githubHref
             return (
               <Grid key={project.name} size={{ xs: 12, md: 4 }}>
                 <Card
@@ -94,7 +112,7 @@ export function PortfolioSection({ projects }: Props) {
                     <Box
                       component="img"
                       src={publicAssetPath(project.imageSrc)}
-                      alt=""
+                      alt={project.name}
                       loading="lazy"
                       sx={{
                         height: 140,
@@ -150,7 +168,7 @@ export function PortfolioSection({ projects }: Props) {
                           variant="outlined"
                           size="small"
                           startIcon={<MenuBookIcon sx={{ fontSize: 18 }} />}
-                          onClick={() => setDetailOpenFor(project.name)}
+                          onClick={() => openDetail(project)}
                           sx={{
                             alignSelf: 'flex-start',
                             borderColor: 'rgba(173, 198, 255, 0.35)',
@@ -166,9 +184,9 @@ export function PortfolioSection({ projects }: Props) {
                           {project.detailModal?.openLabel ?? 'Full write-up'}
                         </Button>
                       ) : null}
-                      {project.demoUrl ?? project.githubUrl ? (
+                      {projectHref ? (
                         <Link
-                          href={project.demoUrl ?? project.githubUrl}
+                          href={projectHref}
                           target="_blank"
                           rel="noopener noreferrer"
                           sx={{
@@ -179,12 +197,12 @@ export function PortfolioSection({ projects }: Props) {
                             color: 'primary.main',
                           }}
                         >
-                          {project.demoUrl
+                          {demoHref
                             ? 'View case study'
-                            : project.githubUrl && isGithubUrl(project.githubUrl)
+                            : githubHref && isGithubUrl(githubHref)
                               ? 'GitHub repository'
                               : 'Open link'}
-                          {project.demoUrl ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
+                          {demoHref ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : <LaunchIcon sx={{ fontSize: 18 }} />}
                         </Link>
                       ) : null}
                     </Stack>
@@ -208,7 +226,7 @@ export function PortfolioSection({ projects }: Props) {
             open={Boolean(detailModal && detailMarkdown)}
             title={detailModal?.title ?? detailProject?.name ?? 'Project'}
             markdown={detailMarkdown}
-            onClose={() => setDetailOpenFor(null)}
+            onClose={closeDetail}
           />
         </Suspense>
       ) : null}

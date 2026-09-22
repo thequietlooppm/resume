@@ -1,21 +1,30 @@
 /**
  * Long-form portfolio write-ups as Markdown files in `./portfolio/*.md`.
  * Referenced from `resume.json` via `detailModal.markdown` (slug without `.md`).
- * After adding a new `.md` file, save this file or refresh the page if the write-up
- * button does not appear (dev server re-scans the glob on portfolio file changes).
+ * Loaders are lazy so write-up text is not in the initial JS chunk.
  */
-const rawByPath = import.meta.glob('./portfolio/*.md', {
+const loaders = import.meta.glob('./portfolio/*.md', {
   query: '?raw',
   import: 'default',
-  eager: true,
-}) as Record<string, string>
+}) as Record<string, () => Promise<string>>
 
-export function getPortfolioMarkdown(slug: string): string | undefined {
+function loaderFor(slug: string): (() => Promise<string>) | undefined {
   const trimmed = slug.trim()
   if (!trimmed) return undefined
-  const key = `./portfolio/${trimmed}.md`
-  const direct = rawByPath[key]
-  if (typeof direct === 'string') return direct
-  const found = Object.keys(rawByPath).find((k) => k.endsWith(`/${trimmed}.md`))
-  return found ? rawByPath[found] : undefined
+  const direct = loaders[`./portfolio/${trimmed}.md`]
+  if (direct) return direct
+  const found = Object.entries(loaders).find(([key]) => key.endsWith(`/${trimmed}.md`))
+  return found?.[1]
+}
+
+export function hasPortfolioMarkdown(slug: string): boolean {
+  return Boolean(loaderFor(slug))
+}
+
+export async function loadPortfolioMarkdown(slug: string): Promise<string | undefined> {
+  const load = loaderFor(slug)
+  if (!load) return undefined
+  const raw = await load()
+  const text = typeof raw === 'string' ? raw.trim() : ''
+  return text || undefined
 }
